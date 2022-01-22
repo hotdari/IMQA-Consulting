@@ -30,6 +30,12 @@ vue --version
 npm i -g @vue/cli
 ```
 
+# Develop
+
+```shell
+ npm run electron:serve
+```
+
 # Deploy
 
 ```shell

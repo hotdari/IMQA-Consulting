@@ -49,10 +49,15 @@ const routes = [
         name: 'login',
         component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/Login.vue')
       },
+      // {
+      //   path: '/register',
+      //   name: 'register',
+      //   component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/Register.vue')
+      // },
       {
-        path: '/register',
-        name: 'register',
-        component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/Register.vue')
+        path: '/setup',
+        name: 'setup',
+        component: () => import(/* webpackChunkName: "demo" */ '../views/Pages/Setup.vue')
       },
       { path: '*', component: NotFound }
     ]

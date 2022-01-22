@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, dialog } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -9,14 +9,13 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
-
 async function createWindow() {
   // Create the browser window.
+  console.log("create")
   const win = new BrowserWindow({
     width: 1024,
     height: 768,
     webPreferences: {
-
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
@@ -79,3 +78,15 @@ if (isDevelopment) {
     })
   }
 }
+
+// 파일 디렉토리
+ipcMain.on('open-directory-dialog', (event) => {
+  console.log('open-directory-dialog')
+  dialog.showOpenDialog(
+    {
+      properties: ['openDirectory']
+    }).then((result) => {
+      console.log('open-directory-dialog-reply', result)
+      event.reply('open-directory-dialog-reply', result)
+    })
+})

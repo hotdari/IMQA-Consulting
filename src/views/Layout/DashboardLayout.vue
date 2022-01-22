@@ -54,8 +54,8 @@
         </sidebar-item>
         <sidebar-item
                   :link="{
-                    name: 'Register',
-                    path: '/register',
+                    name: 'Setup',
+                    path: '/setup',
                     icon: 'ni ni-circle-08 text-pink'
                   }">
         </sidebar-item>
