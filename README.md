@@ -59,3 +59,21 @@ npm run electron:build-win64
 // mac 배포
 npm run electron:build-mac
 ```
+
+# .eslintrc.js
+```javascript
+module.exports = {
+  root: true,
+  env: {
+    node: true
+  },
+  extends: ['plugin:vue/essential'],
+  rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+  },
+  parserOptions: {
+    parser: 'babel-eslint'
+  }
+};
+```
