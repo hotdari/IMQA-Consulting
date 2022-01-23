@@ -31,7 +31,7 @@
         class="collapse show"
       >
         <ul class="nav nav-sm flex-column">
-          <slot></slot>
+          <li><slot></slot></li>
         </ul>
       </div>
     </collapse-transition>
