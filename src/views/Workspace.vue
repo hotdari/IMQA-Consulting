@@ -56,21 +56,21 @@ export default {
 					time: "오후 1:12",
 					body: "<p>1.0 버전으로 시작합니다.</p>",
 					action: ""
+				},
+				{
+					id: 4,
+					user: "IMQA Bot",
+					time: "오후 1:11",
+					body: "<p>달력을 눌러 컨설팅 기간을 선택해주세요.</p>",
+					action: "<input type='date'></input><div class='mt-1'><button data-event='startDate' class='btn btn-primary btn-sm'>선택된 기간으로 시작합니다.</button><button data-event='cancelDate' class='btn btn-secondary btn-sm'>취소합니다</button></div>"
+				},
+				{
+					id: 5,
+					user: "사용자",
+					time: "오후 1:12",
+					body: "<p>해당 날짜로 컨설팅 기간을 선택합니다.</p>",
+					action: ""
 				}
-				// {
-				// 	id: 4,
-				// 	user: "IMQA Bot",
-				// 	time: "오후 1:11",
-				// 	body: "<p>달력을 눌러 컨설팅 기간을 선택해주세요.</p>",
-				// 	action: "<input type='date'></input><div class='mt-1'><button data-event='startDate' class='btn btn-primary btn-sm'>선택된 기간으로 시작합니다.</button><button data-event='cancelDate' class='btn btn-secondary btn-sm'>취소합니다</button></div>"
-				// },
-				// {
-				// 	id: 5,
-				// 	user: "사용자",
-				// 	time: "오후 1:12",
-				// 	body: "<p>해당 날짜로 컨설팅 기간을 선택합니다.</p>",
-				// 	action: ""
-				// }
 			]
 		};
 	},
