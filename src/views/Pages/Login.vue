@@ -50,20 +50,20 @@
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        model: {
-          email: '',
-          password: '',
-          rememberMe: false
-        }
-      };
-    },
-    methods: {
-      onSubmit() {
-        this.$router.push({path:'/dashboard'})
-      }
-    }
-  };
+export default {
+	data() {
+		return {
+			model: {
+				email: "",
+				password: "",
+				rememberMe: false
+			}
+		};
+	},
+	methods: {
+		onSubmit() {
+			this.$router.push({ path: "/workspace" });
+		}
+	}
+};
 </script>

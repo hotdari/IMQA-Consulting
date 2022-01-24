@@ -23,7 +23,7 @@
                     <button @click="toggleOpen">
                       <b-icon class="toggle_arrow" icon="caret-right-fill" aria-hidden="true"></b-icon>
                     </button>
-                    <button class="menu" @click.self="toggleOpen">
+                    <button class="menu" :class="group.platform" @click.self="toggleOpen">
                         {{ group.name }}
                     </button>
                     <button class="addConsulting" @click="addConsulting(group.id)">
@@ -120,6 +120,7 @@ export default {
 							{
 								id: 0,
 								name: "하이닉스",
+								platform: "android",
 								consultingMenus: [
 									{
 										id: 0,
@@ -134,35 +135,7 @@ export default {
 							{
 								id: 1,
 								name: "아모레",
-								consultingMenus: [
-									{
-										id: 0,
-										name: "2021.01.13 11:03:02"
-									}
-								]
-							}
-						]
-					}
-				},
-				{
-					id: 1,
-					name: "POC 고객",
-					groups: {
-						id: 0,
-						childMenus: [
-							{
-								id: 0,
-								name: "따릉이",
-								consultingMenus: [
-									{
-										id: 0,
-										name: "2021.01.13 11:03:02"
-									}
-								]
-							},
-							{
-								id: 1,
-								name: "KB국민은행",
+								platform: "ios",
 								consultingMenus: [
 									{
 										id: 0,
@@ -251,6 +224,21 @@ export default {
         > ul {
           > li {
             padding: 4px 0;
+
+            > .dept-menu {
+              .menu {
+                box-sizing: border-box;
+                padding-left: 20px;
+              }
+
+              .menu.android {
+                background: url("/img/icons/common/white_aos_icon.svg") no-repeat left 5px;
+              }
+
+              .menu.ios {
+                background: url("/img/icons/common/white_ios_icon.svg") no-repeat left 5px;
+              }
+            }
 
             &:hover,&:focus{
               .addConsulting svg{

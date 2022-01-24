@@ -43,42 +43,42 @@
   </div>
 </template>
 <script>
-import {ipcRenderer} from 'electron'
+import { ipcRenderer } from "electron";
 
 export default {
-  name: 'setup',
-  data() {
-    return {
-      model: {
-        directory: '',
-        server_url: ''
-      },
-      color: "",
-      active: false
-    }
-  },
-  computed: {
-    changeDirectoryData(){
-      return !this.model.directory ? 'Workspace URL' : this.model.directory
-    }
-  },
-  methods: {
-    onSubmit() {
-      this.$router.push({path:'/login'})
-    },
-    getfolder() {
-      //파일디렉토리 dialog 요청
-      this.active = true;
-      ipcRenderer.send('open-directory-dialog')
+	name: "setup",
+	data() {
+		return {
+			model: {
+				directory: "",
+				server_url: ""
+			},
+			color: "",
+			active: false
+		};
+	},
+	computed: {
+		changeDirectoryData(){
+			return !this.model.directory ? "Workspace URL" : this.model.directory;
+		}
+	},
+	methods: {
+		onSubmit() {
+			this.$router.push({ path: "/login" });
+		},
+		getfolder() {
+			//파일디렉토리 dialog 요청
+			this.active = true;
+			ipcRenderer.send("open-directory-dialog");
 
-      //파일디렉토리 dialog 응답
-      ipcRenderer.on('open-directory-dialog-reply', (event, arg) => {
-        this.model.directory = arg.filePaths[0]
-        this.$refs.workspace_label.style.color = "#8898aa";
-        this.active = false;
-      })
-    }
-  }
+			//파일디렉토리 dialog 응답
+			ipcRenderer.on("open-directory-dialog-reply", (event, arg) => {
+				this.model.directory = arg.filePaths[0];
+				this.$refs.workspace_label.style.color = "#8898aa";
+				this.active = false;
+			});
+		}
+	}
 
 };
 </script>
