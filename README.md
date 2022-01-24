@@ -180,3 +180,17 @@ module.exports = {
 };
 
 ```
+
+# eslintignore
+```javascript
+.nyc_output/*
+dist_electron/*
+dist/*
+build/*
+node_modules/*
+public/*
+src/components/*
+src/directives/*
+src/plugins/*
+src/util/*
+```
