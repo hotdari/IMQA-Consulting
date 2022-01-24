@@ -41,6 +41,7 @@ export default {
     sendMessage(){
       console.log(this.content);
       this.content = ""
+      this.$emit("send")
     }
   }
 }
