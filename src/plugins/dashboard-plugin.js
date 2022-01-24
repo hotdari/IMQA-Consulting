@@ -10,6 +10,7 @@ import GlobalComponents from './globalComponents';
 import GlobalDirectives from './globalDirectives';
 // Sidebar on the right. Used as a local plugin in DashboardLayout.vue
 import SideBar from '@/components/SidebarPlugin';
+import VueQuillEditor from 'vue-quill-editor'
 
 // element ui language configuration
 import lang from 'element-ui/lib/locale/lang/en';
@@ -40,6 +41,7 @@ export default {
     Vue.use(Notifications);
     Vue.use(BootstrapVue);
     Vue.use(IconsPlugin);
+    Vue.use(VueQuillEditor);
     configure({
       classes: {
         valid: 'is-valid',
