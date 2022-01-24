@@ -4,36 +4,36 @@
     <side-bar>
       <template slot="links">
         <ul class="left-menus">
-          <li v-for="(data, index) in this.leftMenus" v-key="index">
+          <li :class="{active: isMenuActive(menu.id)}" v-for="(menu, menuIndex) in this.leftMenus" :key="menu.id">
             <div class="dept-menu">
               <button @click="toggleOpen">
                 <b-icon icon="list" aria-hidden="true"></b-icon>
               </button>
               <button class="menu" @click.self="toggleOpen">
-                {{ data.name }}
+                {{ menu.name }}
               </button>
-              <button class="addProject" @click="addProject(data.id)">
+              <button class="addProject" @click="addProject(menu.id)">
                 <b-icon class="plus_icon" icon="plus" aria-hidden="true"></b-icon>
               </button>
             </div>
             <div class="dept-child-menu">
               <ul>
-                <li v-for="(childData, childIndex) in data.menus.childMenus" v-key="'1'+childIndex">
+                <li :class="{active: isGroupActive(menu.id, group.id)}" v-for="(group, groupIndex) in menu.groups.childMenus" :key="group.id">
                   <div class="dept-menu">
                     <button @click="toggleOpen">
                       <b-icon class="toggle_arrow" icon="caret-right-fill" aria-hidden="true"></b-icon>
                     </button>
                     <button class="menu" @click.self="toggleOpen">
-                        {{ childData.name }}
+                        {{ group.name }}
                     </button>
-                    <button class="addConsulting" @click="addConsulting(childData.id)">
+                    <button class="addConsulting" @click="addConsulting(group.id)">
                       <b-icon class="plus_icon" icon="plus" aria-hidden="true"></b-icon>
                     </button>
                   </div>
                   <div class="consulting-list">
                     <ul>
-                      <li v-for="(consultingMenu, consultingIndex) in childData.consultingMenus" v-key="'2'+consultingIndex">
-                        <button>{{ consultingMenu.name }}</button>
+                      <li :class="{active: isConsultingActive(menu.id, group.id, consultingMenu.id)}" v-for="(consultingMenu, consultingIndex) in group.consultingMenus" :key="consultingMenu.id">
+                        <button @click="getConsulting(menu.id, group.id, consultingMenu.id)">{{ consultingMenu.name }}</button>
                       </li>
                     </ul>
                   </div>
@@ -66,6 +66,11 @@
         </b-nav>
       </template>
     </side-bar>
+    <div class="main-content">
+      <div>
+          <router-view></router-view>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -88,28 +93,28 @@ function initScrollbar(className) {
 }
 
 import DashboardNavbar from "./DashboardNavbar.vue";
-import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
-import { FadeTransition } from "vue2-transitions";
 
 export default {
 	components: {
 		DashboardNavbar,
-		ContentFooter,
-		DashboardContent,
-		FadeTransition
+		DashboardContent
 	},
 	data(){
 		return {
-			selectMenuId: null,
-			selectChildMenuId: null,
-			selectConsultingId: null,
-			isActive: false,
+		  selectMenuId: 0,
+			selectGroupId: 0,
+			selectConsultingId: 0,
+			selectConsulting: {
+				selectConsoletingMenuId: 0,
+				selectConsoletingGroupId: 0,
+				selectConsultingId: 0
+			},
 			leftMenus: [
 				{
 					id: 0,
 					name: "Project",
-					menus: {
+					groups: {
 						id: 0,
 						childMenus: [
 							{
@@ -142,7 +147,7 @@ export default {
 				{
 					id: 1,
 					name: "POC 고객",
-					menus: {
+					groups: {
 						id: 0,
 						childMenus: [
 							{
@@ -171,6 +176,27 @@ export default {
 			]
 		};
 	},
+	computed: {
+		isMenuActive(){
+			return menu_id => {
+				return this.selectMenuId === menu_id;
+			};
+		},
+		isGroupActive(){
+			return (menu_id, group_id) => {
+				return (this.selectMenuId === menu_id && this.selectGroupId === group_id);
+			};
+		},
+		isConsultingActive(){
+			return (menu_id, group_id, consulting_id) => {
+				return (
+				  this.selectConsulting.selectConsoletingMenuId === menu_id &&
+          this.selectConsulting.selectConsoletingGroupId === group_id &&
+          this.selectConsulting.selectConsultingId === consulting_id
+				);
+			};
+		}
+	},
 	mounted() {
 		this.initScrollbar();
 	},
@@ -190,6 +216,12 @@ export default {
 		},
 		addConsulting(id){
 			console.log("컨설팅 추가", id);
+		},
+		getConsulting(group_id, parent_id, id){
+		  this.selectConsulting.selectConsoletingMenuId = group_id;
+			this.selectConsulting.selectConsoletingGroupId = parent_id;
+			this.selectConsulting.selectConsultingId = id;
+			console.log("컨설팅 불러오기", id);
 		}
 	}
 };
@@ -291,6 +323,12 @@ export default {
       }
 
       .consulting-list{
+        li:hover {
+          background-color: #4A5664;
+        }
+        li.active {
+          background-color: #6698c8;
+        }
         button {
           padding-left: 40px;
           font-size:14px;
@@ -307,6 +345,7 @@ export default {
       border: 0;
       background-color: transparent;
       text-align: left;
+      color: #ffffff;
 
       &:focus{
        outline: none;
