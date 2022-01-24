@@ -69,130 +69,130 @@
   </div>
 </template>
 <script>
-  /* eslint-disable no-new */
-  import PerfectScrollbar from 'perfect-scrollbar';
-  import 'perfect-scrollbar/css/perfect-scrollbar.css';
-  function hasElement(className) {
-    return document.getElementsByClassName(className).length > 0;
-  }
+/* eslint-disable no-new */
+import PerfectScrollbar from "perfect-scrollbar";
+import "perfect-scrollbar/css/perfect-scrollbar.css";
+function hasElement(className) {
+	return document.getElementsByClassName(className).length > 0;
+}
 
-  function initScrollbar(className) {
-    if (hasElement(className)) {
-      new PerfectScrollbar(`.${className}`);
-    } else {
-      // try to init it later in case this component is loaded async
-      setTimeout(() => {
-        initScrollbar(className);
-      }, 100);
-    }
-  }
+function initScrollbar(className) {
+	if (hasElement(className)) {
+		new PerfectScrollbar(`.${className}`);
+	} else {
+		// try to init it later in case this component is loaded async
+		setTimeout(() => {
+			initScrollbar(className);
+		}, 100);
+	}
+}
 
-  import DashboardNavbar from './DashboardNavbar.vue';
-  import ContentFooter from './ContentFooter.vue';
-  import DashboardContent from './Content.vue';
-  import { FadeTransition } from 'vue2-transitions';
+import DashboardNavbar from "./DashboardNavbar.vue";
+import ContentFooter from "./ContentFooter.vue";
+import DashboardContent from "./Content.vue";
+import { FadeTransition } from "vue2-transitions";
 
-  export default {
-    components: {
-      DashboardNavbar,
-      ContentFooter,
-      DashboardContent,
-      FadeTransition
-    },
-    data(){
-      return {
-        selectMenuId: null,
-        selectChildMenuId: null,
-        selectConsultingId: null,
-        isActive: false,
-        leftMenus:[
-          {
-            id: 0,
-            name: "Project",
-            menus: {
-              id: 0,
-              childMenus:[
-                {
-                  id: 0,
-                  name: "하이닉스",
-                  consultingMenus: [
-                    {
-                      id: 0,
-                      name: "2021.01.13 11:03:02"
-                    },
-                    {
-                      id: 1,
-                      name: "2021.01.14 12:00:12"
-                    }
-                  ]
-                },
-                {
-                  id: 1,
-                  name: "아모레",
-                  consultingMenus: [
-                    {
-                      id: 0,
-                      name: "2021.01.13 11:03:02"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            id: 1,
-            name: "POC 고객",
-            menus: {
-              id: 0,
-              childMenus:[
-                {
-                  id: 0,
-                  name: "따릉이",
-                  consultingMenus: [
-                    {
-                      id: 0,
-                      name: "2021.01.13 11:03:02"
-                    },
-                  ]
-                },
-                {
-                  id: 1,
-                  name: "KB국민은행",
-                  consultingMenus: [
-                    {
-                      id: 0,
-                      name: "2021.01.13 11:03:02"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      }
-    },
-    methods: {
-      initScrollbar() {
-        let isWindows = navigator.platform.startsWith('Win');
-        if (isWindows) {
-          initScrollbar('sidenav');
-        }
-      },
-      toggleOpen(e){
-        const target = e.currentTarget.parentNode.parentNode;
-        target.classList.toggle('active')
-      },
-      addProject(id) {
-        console.log("프로젝트 추가", id)
-      },
-      addConsulting(id){
-        console.log("컨설팅 추가", id)
-      }
-    },
-    mounted() {
-      this.initScrollbar()
-    }
-  };
+export default {
+	components: {
+		DashboardNavbar,
+		ContentFooter,
+		DashboardContent,
+		FadeTransition
+	},
+	data(){
+		return {
+			selectMenuId: null,
+			selectChildMenuId: null,
+			selectConsultingId: null,
+			isActive: false,
+			leftMenus: [
+				{
+					id: 0,
+					name: "Project",
+					menus: {
+						id: 0,
+						childMenus: [
+							{
+								id: 0,
+								name: "하이닉스",
+								consultingMenus: [
+									{
+										id: 0,
+										name: "2021.01.13 11:03:02"
+									},
+									{
+										id: 1,
+										name: "2021.01.14 12:00:12"
+									}
+								]
+							},
+							{
+								id: 1,
+								name: "아모레",
+								consultingMenus: [
+									{
+										id: 0,
+										name: "2021.01.13 11:03:02"
+									}
+								]
+							}
+						]
+					}
+				},
+				{
+					id: 1,
+					name: "POC 고객",
+					menus: {
+						id: 0,
+						childMenus: [
+							{
+								id: 0,
+								name: "따릉이",
+								consultingMenus: [
+									{
+										id: 0,
+										name: "2021.01.13 11:03:02"
+									}
+								]
+							},
+							{
+								id: 1,
+								name: "KB국민은행",
+								consultingMenus: [
+									{
+										id: 0,
+										name: "2021.01.13 11:03:02"
+									}
+								]
+							}
+						]
+					}
+				}
+			]
+		};
+	},
+	mounted() {
+		this.initScrollbar();
+	},
+	methods: {
+		initScrollbar() {
+			const isWindows = navigator.platform.startsWith("Win");
+			if (isWindows) {
+				initScrollbar("sidenav");
+			}
+		},
+		toggleOpen(e){
+			const target = e.currentTarget.parentNode.parentNode;
+			target.classList.toggle("active");
+		},
+		addProject(id) {
+			console.log("프로젝트 추가", id);
+		},
+		addConsulting(id){
+			console.log("컨설팅 추가", id);
+		}
+	}
+};
 </script>
 <style lang="scss" scoped>
   .left-menus{
