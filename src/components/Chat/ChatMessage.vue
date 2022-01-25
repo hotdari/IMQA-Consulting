@@ -17,6 +17,9 @@
 </template>
 
 <script>
+import {driver} from "../../../driver";
+import webdriver from "selenium-webdriver";
+
 export default {
   props: {
     user: String,
@@ -26,7 +29,16 @@ export default {
   },
   mounted() {
     this.$refs['action'].addEventListener('click', function(event) {
+      driver.get("http://www.google.com");
+      driver.findElement(webdriver.By.name("q")).sendKeys("webdriver");
+      driver.findElement(webdriver.By.name("btnK")).click();
+      driver.wait(() => {
+        return driver.getTitle().then(title => {
+          return title === "webdriver - Google Search";
+        });
+      }, 1000);
 
+      driver.quit();
       console.log('clicked: ', event.target.dataset);
     })
   }

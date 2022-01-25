@@ -4,6 +4,7 @@ import App from "./App.vue";
 
 // router setup
 import router from "./routes/router";
+
 // plugin setup
 Vue.use(DashboardPlugin);
 
