@@ -20,6 +20,8 @@
 import {driver} from "../../../driver";
 import webdriver from "selenium-webdriver";
 
+const fs = require('fs')
+
 
 export default {
   props: {
@@ -32,25 +34,61 @@ export default {
     this.$refs['action'].addEventListener('click', async function(event) {console.log('clicked: ', event.target.dataset); })
   },
   methods: {
+    // test : async function () {
+    //   driver.then(resolve => resolve.build())
+    //         .then(resolve => {
+    //           resolve.get("http://www.google.com")
+    //           return resolve;
+    //         })
+    //         .then(resolve => {
+    //           resolve.findElement(webdriver.By.name("q")).sendKeys('webdriver')
+    //           return resolve;
+    //         })
+    //         .then(resolve => {
+    //           resolve.findElement(webdriver.By.name("btnK")).click();
+    //           return resolve;
+    //         })
+    //         .then(async resolve => {
+    //           await resolve.wait(webdriver.until.elementLocated(webdriver.By.id("rso")), 5000);
+    //           await resolve.findElement(webdriver.By.id("rso")).takeScreenshot();
+    //           await resolve.quit();
+    //         })
+    // }
     test : async function () {
       driver.then(resolve => resolve.build())
-            .then(resolve => {
-              resolve.get("http://www.google.com")
-              return resolve;
+        .then(async resolve => {
+          await resolve.get("http://ote-mpm.imqa.io/")
+          await resolve.manage().addCookie({
+            name: 'IMQA_OTE_SESSION',
+            value: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDM3Nzk4MDIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYWRtaW5AaW1xYS5pbyIsImVtYWlsIjoiYWRtaW5AaW1xYS5pbyIsIm5pY2tuYW1lIjoi6rSA66as7J6QIiwiaXNfc3VwZXJ1c2VyIjoxLCJ1c2VyX3R6Ijo5LCJpYXQiOjE2NDMxNzUwMDIsImlzcyI6Im1wbS5pbXFhLmlvIiwic3ViIjoibXBtIn0.p-3DmsHjkhHpf-KwoRByjTJNSkePjEu05h4IpmCaUsA',
+            domain: '.imqa.io',
+            path: '/',
+            secure: false
+          });
+          return resolve;
+        })
+        .then(async resolve => {
+          await resolve.get("http://ote-mpm.imqa.io/mpm/32/management/reference")
+          await resolve.wait(webdriver.until.elementLocated(webdriver.By.className("setting-body")), 5000);
+          await resolve.findElement(webdriver.By.className("setting-body")).takeScreenshot().then(img => {
+            fs.writeFile('write_test_file.png', img, 'base64',(err) => {
+              // In case of a error throw err.
+              if (err) throw err;
             })
-            .then(resolve => {
-              resolve.findElement(webdriver.By.name("q")).sendKeys('webdriver')
-              return resolve;
+          });
+          await resolve.request('POST', 'http://ote-mpm.imqa.io/api/reference_value/32', data = {"crash_warning":0,"crash_danger":0,"ui_value":0,"ui_warning":0,"ui_danger":0,"webview_value":0,"webview_warning":0,"webview_danger":0,"response_value":0,"response_warning":0,"response_danger":0,"cpu_value":0,"cpu_warning":0,"cpu_danger":0,"memory_value":0,"memory_warning":0,"memory_danger":0})
+          await resolve.wait(webdriver.until.elementLocated(webdriver.By.className("setting-body")), 5000);
+          await resolve.findElement(webdriver.By.className("setting-body")).takeScreenshot().then(img => {
+            fs.writeFile('write_test_file2.png', img, 'base64',(err) => {
+              // In case of a error throw err.
+              if (err) throw err;
             })
-            .then(resolve => {
-              resolve.findElement(webdriver.By.name("btnK")).click();
-              return resolve;
-            })
-            .then(async resolve => {
-              await resolve.wait(webdriver.until.elementLocated(webdriver.By.id("rso")), 5000);
-              await resolve.findElement(webdriver.By.id("rso")).takeScreenshot();
-              await resolve.quit();
-            })
+          });
+          // return resolve;
+        })
+        // .then(async resolve => {
+        //   await resolve.quit();
+        // })
     }
   }
 }

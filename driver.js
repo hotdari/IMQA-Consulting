@@ -1,5 +1,5 @@
 import webdriver from "selenium-webdriver";
-
+import chrome from "selenium-webdriver/chrome";
 // 작동하고 있는 크롬 드라이버의 포트 "9515"를 사용합니다.
 export const driver = new Promise((resolve, reject) => {
 	const promiseDriver = new webdriver.Builder()
@@ -10,6 +10,7 @@ export const driver = new Promise((resolve, reject) => {
 				binary: "./node_modules/electron/dist/Electron.app/Contents/MacOS/Electron"
 			}
 		})
-		.forBrowser("chrome");
+		.forBrowser("chrome")
+	  .setChromeOptions(new chrome.Options().headless().windowSize({ width: 1920, height: 1080 }));
 	  resolve(promiseDriver);
 });
