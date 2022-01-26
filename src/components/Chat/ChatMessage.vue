@@ -19,6 +19,7 @@
 <script>
 import {driver} from "../../../driver";
 import webdriver from "selenium-webdriver";
+import chrome from "selenium-webdriver/chrome";
 
 const fs = require('fs')
 
@@ -76,19 +77,8 @@ export default {
               if (err) throw err;
             })
           });
-          await resolve.request('POST', 'http://ote-mpm.imqa.io/api/reference_value/32', data = {"crash_warning":0,"crash_danger":0,"ui_value":0,"ui_warning":0,"ui_danger":0,"webview_value":0,"webview_warning":0,"webview_danger":0,"response_value":0,"response_warning":0,"response_danger":0,"cpu_value":0,"cpu_warning":0,"cpu_danger":0,"memory_value":0,"memory_warning":0,"memory_danger":0})
-          await resolve.wait(webdriver.until.elementLocated(webdriver.By.className("setting-body")), 5000);
-          await resolve.findElement(webdriver.By.className("setting-body")).takeScreenshot().then(img => {
-            fs.writeFile('write_test_file2.png', img, 'base64',(err) => {
-              // In case of a error throw err.
-              if (err) throw err;
-            })
-          });
-          // return resolve;
+          await resolve.quit();
         })
-        // .then(async resolve => {
-        //   await resolve.quit();
-        // })
     }
   }
 }
