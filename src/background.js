@@ -15,12 +15,15 @@ async function createWindow() {
   const win = new BrowserWindow({
     width: 1024,
     height: 768,
+    useContentSize: true,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
-    }
+      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      // 로컬파일 접근을 위해 사용
+      webSecurity: false
+    },
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {

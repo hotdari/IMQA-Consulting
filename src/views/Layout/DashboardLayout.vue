@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <button @click="getConvertPptx" :style="{'z-index': 999, 'position': 'absolute'}">AAAAAAA</button>
     <notifications></notifications>
     <side-bar>
       <template slot="links">
@@ -91,6 +92,7 @@ import DashboardNavbar from "./DashboardNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import { FadeTransition } from "vue2-transitions";
+import { createPptx } from "/pptxConvertor";
 
 export default {
 	components: {
@@ -190,7 +192,10 @@ export default {
 		},
 		addConsulting(id){
 			console.log("컨설팅 추가", id);
-		}
+		},
+    getConvertPptx(){
+      createPptx(1);
+    }
 	}
 };
 </script>
