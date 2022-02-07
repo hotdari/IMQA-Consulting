@@ -10,8 +10,7 @@
               <div class="text-center text-muted mb-4">
                 <small>컨설팅에 사용할 세팅값을 설정해주세요.</small>
               </div>
-              <validation-observer v-slot="{handleSubmit}" ref="formValidator">
-                <b-form role="form" @submit.prevent="handleSubmit(onSubmit)">
+                <b-form role="form" @submit.prevent="onSubmit">
 
                   <div class="input-group input-group-alternative mb-3 workspace_input" :class="{ focused: active }">
                     <div class="input-group-prepend">
@@ -34,7 +33,6 @@
                     <b-button type="submit" variant="primary" class="mt-4">Save</b-button>
                   </div>
                 </b-form>
-              </validation-observer>
             </b-card-body>
           </b-card>
         </b-col>
@@ -63,7 +61,9 @@ export default {
 		}
 	},
 	methods: {
-		onSubmit() {
+		async onSubmit() {
+			await this.$store.dispatch("config/setDirectory", this.model.directory);
+			await this.$store.dispatch("config/setServerUrl", this.model.server_url);
 			this.$router.push({ path: "/login" });
 		},
 		getfolder() {

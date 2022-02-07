@@ -9,8 +9,7 @@
               <div class="text-center text-muted mb-4">
                 <small>IMQA Consulting에 접속하신 것을 환영합니다.</small>
               </div>
-              <validation-observer v-slot="{handleSubmit}" ref="formValidator">
-                <b-form role="form" @submit.prevent="handleSubmit(onSubmit)">
+                <b-form role="form" @submit.prevent="onSubmit">
                   <base-input alternative
                               class="mb-3"
                               name="Email"
@@ -33,7 +32,6 @@
                     <base-button type="primary" native-type="submit" class="my-4">Sign In</base-button>
                   </div>
                 </b-form>
-              </validation-observer>
             </b-card-body>
           </b-card>
 <!--          <b-row class="mt-3">-->
@@ -50,6 +48,9 @@
   </div>
 </template>
 <script>
+import UserModel from "../../model/user/UserModel";
+import { setAuthInHeader } from "@/api/axios";
+
 export default {
 	data() {
 		return {
@@ -62,7 +63,18 @@ export default {
 	},
 	methods: {
 		onSubmit() {
-			this.$router.push({ path: "/workspace" });
+			UserModel.login({ id: this.model.email, password: this.model.password }).subscribe(res => {
+				console.log(res.headers);
+
+				// this.$store.commit("config/setCookie");
+				this.$router.push({ path: "/workspace" });
+			}, err => {
+				alert("계정 정보가 잘못되었습니다. \n 다시 한번 입력해주세요.");
+			});
+			// this.$router.push({ path: "/" });
+		},
+		_setCookie(cookie_name, value, miuntes) {
+			document.cookie = cookie_name + "=" + cookie_value;
 		}
 	}
 };
