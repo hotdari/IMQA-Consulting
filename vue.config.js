@@ -13,7 +13,9 @@ module.exports = {
 				"tests/**/*.spec.ts"
 			],
 			expressServer: undefined,
-			karmaConfig: undefined
+      karmaConfig: {
+        browsers: ["Chrome"]
+      }
 		},
 		electronBuilder: {
 			nodeIntegration: true

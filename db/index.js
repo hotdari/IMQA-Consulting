@@ -16,42 +16,19 @@ const dataPath = process.env.NODE_ENV === 'development'
 // const dbFile = path.join(__dirname, path.sep+'/db/database.db').replace(path.sep+'app.asar', '');
 // console.log(dbFile)
 
-const db = new sqlite3.Database(dataPath, sqlite3.OPEN_READWRITE, (err) => {
+export const db = new sqlite3.Database(dataPath, sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     console.error(err.message);
   } else {
     console.log('Connected to the test database.');
-    isConn = true;
-    db.run('CREATE TABLE IF NOT EXISTS report ( report_id INTEGER PRIMARY KEY, project_id INTEGER, desc TEXT, content TEXT )',[], arg=>{
-      console.log('create',arg);
-    });
+    // isConn = true;
+    // db.run('CREATE TABLE IF NOT EXISTS report ( report_id INTEGER PRIMARY KEY, project_id INTEGER, desc TEXT, content TEXT )',[], arg=>{
+    //   console.log('create',arg);
+    // });
   }
 });
 
-module.exports.insert = function(arg){
-  if(isConn){
-    // db.run('INSERT INTO report VALUES(?,?,?,?)',[1, 1, "설명", JSON.stringify(sample)], (err,arg)=>{});
-  }
-};
-
-module.exports.select = function (arg){
-  try {
-    if(isConn) {
-      return new Promise(function(resolve,reject){
-        db.get(`SELECT * FROM report WHERE report_id = ${arg}`, (err, rows) => {
-          console.log(rows);
-          if(err){return reject(err);}
-          resolve(rows);
-        });
-      });
-    }
-  } catch (error){
-    console.error(error);
-    throw error;
-  }
-};
-
-module.exports.dbClose = function (arg) {
+export function dbClose(arg) {
   db.close((err) => {
     if (err) {
       console.error(err.message);

@@ -1,6 +1,7 @@
 // import test from "../db";
 import pptxgen from "pptxgenjs";
 const html2pptxgenjs = require('html2pptxgenjs');
+import report from "./DB/Report.js";
 
 // // 1. Create a new Presentation
 // let pptx = new pptxgen();
@@ -16,28 +17,28 @@ const html2pptxgenjs = require('html2pptxgenjs');
 // // 4. Save the Presentation
 // pptx.writeFile();
 //------------------------------------------------------------------------------
+let content = {};
+let local_path = "file:///Users/id-yunseol/Desktop/image";
+let custom_path = "aritaum_3.3.0";
+let defaultTextStyle = {
+  x: 5,
+  y: 5,
+  w: "50%",
+  h: "10%",
+  shrinkText: true,
+  fontFace: "NanumGothic",
+  baseline: 16,
+  fontSize: 16,
+  color: "1c1a1a",
+  bold: false,
+  italic: false,
+  underline: false,
+  // strike: "",
+}
 
 class Ppt {
   constructor() {
     this.pptx = new pptxgen();
-    this.content = {};
-    this.local_path = "file:///Users/id-yunseol/Desktop/image";
-    this.custom_path = "aritaum_3.3.0";
-    this.defaultTextStyle = {
-      x: 5,
-      y: 5,
-      w: "50%",
-      h: "10%",
-      shrinkText: true,
-      fontFace: "NanumGothic",
-      baseline: 16,
-      fontSize: 16,
-      color: "1c1a1a",
-      bold: false,
-      italic: false,
-      underline: false,
-      // strike: "",
-    }
   }
 
   savePpt(){
@@ -56,21 +57,21 @@ class Ppt {
     // 3. Add one or more objects (Tables, Shapes, Images, Text and Media) to the Slide
     // title
     slide.addText(this.textParse(payload.title, {fontSize: 32, strike: false}), {
-      ...this.defaultTextStyle,
+      ...defaultTextStyle,
       x: "3%",
       y: "30%",
       bold: true
     });
     // desc
     slide.addText(this.textParse(payload.desc, {fontSize: 12}), {
-      ...this.defaultTextStyle,
+      ...defaultTextStyle,
       x: "3%",
       y: "80%"
     });
     // logo
-    slide.addImage({ x: "3%", y: "5%", w: "12%", h: "3%", path: `${this.local_path}/${payload.logo}` });
+    slide.addImage({ x: "3%", y: "5%", w: "12%", h: "3%", path: `${local_path}/${payload.logo}` });
     // background
-    slide.addImage({ x: "60%", y: "45%", w: "40%", h: "50%", path: `${this.local_path}/${payload.image}` });
+    slide.addImage({ x: "60%", y: "45%", w: "40%", h: "50%", path: `${local_path}/${payload.image}` });
   }
 
   slideSummary(payload) {
@@ -79,7 +80,7 @@ class Ppt {
     // 3. Add one or more objects (Tables, Shapes, Images, Text and Media) to the Slide
     // title
     slide.addText(this.textParse(payload.title, {fontSize: 20}), {
-      ...this.defaultTextStyle,
+      ...defaultTextStyle,
       x: "5%",
       y: "5%",
       w: "90%",
@@ -89,7 +90,7 @@ class Ppt {
     });
     // desc
     slide.addText(this.textParse(payload.desc, {fontSize: 12}), {
-      ...this.defaultTextStyle,
+      ...defaultTextStyle,
       x: "5%",
       y: "15%",
       w: "80%",
@@ -103,7 +104,7 @@ class Ppt {
     // 3. Add one or more objects (Tables, Shapes, Images, Text and Media) to the Slide
     // title
     slide.addText(this.textParse(payload.title, {fontSize: 16}), {
-      ...this.defaultTextStyle,
+      ...defaultTextStyle,
       x: 0,
       y: 0,
       w: "20%",
@@ -114,14 +115,14 @@ class Ppt {
     });
     // desc
     slide.addText(this.textParse(payload.desc, {fontSize: 10}), {
-      ...this.defaultTextStyle,
+      ...defaultTextStyle,
       x: "3%",
       y: "10%",
       w: "30%",
       h: "85%"
     });
     // report - image
-    slide.addImage({ x: "40%", y: 0, w: "60%", h: "100%", path: `${this.local_path}/${this.custom_path}/${payload.image}` });
+    slide.addImage({ x: "40%", y: 0, w: "60%", h: "100%", path: `${local_path}/${custom_path}/${payload.image}` });
   }
 
   textParse(text, option){
@@ -132,7 +133,7 @@ class Ppt {
   }
 
   convertPptx(payload){
-    //payload = this.content.slide
+    //payload = content.slide
     this.slideCover(payload[0]);
     this.slideSummary(payload[1]);
 
@@ -142,13 +143,13 @@ class Ppt {
   }
 
   // createPptx(payload){
-    // test.insert();
-
-    // test.select(payload).then(data => {
-    //   this.content = JSON.parse(data.content);
-    //   this.convertPptx(this.content.slide);
-    // });
-
+  //   // test.insert();
+  //
+  //   report.selectReport(payload).then(data => {
+  //     content = JSON.parse(data.content);
+  //     this.convertPptx(content.slide);
+  //     this.savePpt();
+  //   });
   // }
 }
 

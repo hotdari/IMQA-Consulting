@@ -44,6 +44,7 @@
 </template>
 <script>
 import { ipcRenderer } from "electron";
+import ppt from "../../../model/Ppt";
 
 export default {
 	name: "setup",
@@ -64,6 +65,7 @@ export default {
 	},
 	methods: {
 		onSubmit() {
+      ppt.createPptx(1)
 			this.$router.push({ path: "/login" });
 		},
 		getfolder() {
