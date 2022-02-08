@@ -1,0 +1,12 @@
+.nyc_output/*
+config/*
+dist/*
+node_modules/*
+out/*
+src/assets/*
+src/plugins/*
+tests/*
+utils/*
+coverage/lcov-report/*
+src/views/util/apexcharts/ie11/*
+src/views/section/region/chart/c3.min.css
