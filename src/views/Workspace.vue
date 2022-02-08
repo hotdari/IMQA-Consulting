@@ -19,6 +19,7 @@
 <script>
 import ChatMessage from "@/components/Chat/ChatMessage";
 import ChatEditor from "@/components/Chat/ChatEditor";
+import chatJson from "@/chat.json";
 
 export default {
 	name: "Workspace",
@@ -28,7 +29,26 @@ export default {
 	},
 	data() {
 	  return{
-			messages: [
+			messages: []
+		};
+	},
+	computed: {
+		// 현재 챗팅 메세지 가져오기
+		// getMessages() {
+		// 	return this.$store.state.chat.messages;
+		// }
+	},
+	mounted() {
+		this.scrollToElement();
+		this.getChatMessages();
+	},
+	updated() {
+		this.scrollToElement();
+	},
+	methods: {
+		getChatMessages(){
+			// this.$store.dispatch("chat/setMessages", chatJson);
+			this.messages = [
 				{
 					id: 0,
 					user: "IMQA Bot",
@@ -71,24 +91,17 @@ export default {
 					body: "<p>해당 날짜로 컨설팅 기간을 선택합니다.</p>",
 					action: ""
 				}
-			]
-		};
-	},
-	mounted() {
-		this.scrollToElement();
-	},
-	updated() {
-		this.scrollToElement();
-	},
-	methods: {
+			];
+		},
 		scrollToElement() {
 			const el = this.$refs.chat;
 
 			if (el) {
 				// Use el.scrollIntoView() to instantly scroll to the element
 				el.scrollTop = el.scrollHeight;
+			} else {
+				return;
 			}
-			console.log(el.scrollTop);
 		},
 		sendMessage(){
 		  this.scrollToElement();
