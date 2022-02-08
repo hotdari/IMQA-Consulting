@@ -1,4 +1,4 @@
-import test from "../db/dao";
+// import test from "../db";
 import pptxgen from "pptxgenjs";
 const html2pptxgenjs = require('html2pptxgenjs');
 
@@ -17,7 +17,7 @@ const html2pptxgenjs = require('html2pptxgenjs');
 // pptx.writeFile();
 //------------------------------------------------------------------------------
 
-class PptModel {
+class Ppt {
   constructor() {
     this.pptx = new pptxgen();
     this.content = {};
@@ -40,12 +40,17 @@ class PptModel {
     }
   }
 
+  savePpt(){
+    // 4. Save the Presentation
+    this.pptx.writeFile();
+  }
+
   addSlide(){
+    // 2. Add a Slide
     return this.pptx.addSlide();
   }
 
   slideCover(payload){
-    // 2. Add a Slide
     let slide = this.addSlide();
 
     // 3. Add one or more objects (Tables, Shapes, Images, Text and Media) to the Slide
@@ -69,7 +74,6 @@ class PptModel {
   }
 
   slideSummary(payload) {
-    // 2. Add a Slide
     let slide = this.addSlide();
 
     // 3. Add one or more objects (Tables, Shapes, Images, Text and Media) to the Slide
@@ -94,7 +98,6 @@ class PptModel {
   }
 
   slideContent(payload) {
-    // 2. Add a Slide
     let slide = this.addSlide();
 
     // 3. Add one or more objects (Tables, Shapes, Images, Text and Media) to the Slide
@@ -129,6 +132,7 @@ class PptModel {
   }
 
   convertPptx(payload){
+    //payload = this.content.slide
     this.slideCover(payload[0]);
     this.slideSummary(payload[1]);
 
@@ -137,19 +141,16 @@ class PptModel {
     }
   }
 
-  createPptx(payload){
+  // createPptx(payload){
     // test.insert();
 
-    test.select(payload).then(data => {
-      this.content = JSON.parse(data.content);
-      this.convertPptx(content.slide);
+    // test.select(payload).then(data => {
+    //   this.content = JSON.parse(data.content);
+    //   this.convertPptx(this.content.slide);
+    // });
 
-      // 4. Save the Presentation
-      this.pptx.writeFile();
-    });
-
-  }
+  // }
 }
 
-const ppt = new PptModel();
+const ppt = new Ppt();
 export default ppt;

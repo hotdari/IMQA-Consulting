@@ -1,15 +1,14 @@
-const sample = require("../pptxConvertor/dbSample.js");
+// const sample = require("../pptxConvertor/dbSample.js");
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 let isConn = false;
 console.log(process.resourcesPath)
 console.log(__dirname)
 console.log(path.sep)
-const dbPath = path.resolve(__dirname, 'database.db')
 
-// const dataPath = process.env.NODE_ENV === 'development'
-//   ? './db/database.db'
-//   : __dirname + '/db/database.db';
+const dataPath = process.env.NODE_ENV === 'development'
+  ? './db/database.db'
+  : __dirname + '/db/database.db';
 
 // const db = new sqlite3.Database('./db/database.db', sqlite3.OPEN_READWRITE, (err) => {
 // const db = new sqlite3.Database('sqlite:///Users/id-yunseol/Desktop/db/database.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -17,7 +16,7 @@ const dbPath = path.resolve(__dirname, 'database.db')
 // const dbFile = path.join(__dirname, path.sep+'/db/database.db').replace(path.sep+'app.asar', '');
 // console.log(dbFile)
 
-const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
+const db = new sqlite3.Database(dataPath, sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     console.error(err.message);
   } else {
@@ -31,7 +30,7 @@ const db = new sqlite3.Database(dbPath, sqlite3.OPEN_READWRITE, (err) => {
 
 module.exports.insert = function(arg){
   if(isConn){
-    db.run('INSERT INTO report VALUES(?,?,?,?)',[1, 1, "설명", JSON.stringify(sample)], (err,arg)=>{});
+    // db.run('INSERT INTO report VALUES(?,?,?,?)',[1, 1, "설명", JSON.stringify(sample)], (err,arg)=>{});
   }
 };
 
