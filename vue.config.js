@@ -8,8 +8,9 @@ module.exports = {
   lintOnSave: true,
   pluginOptions: {
     electronBuilder: {
-      nodeIntegration: true
-    }
+      nodeIntegration: true,
+      externals: ['sqlite3'],
+    },
   },
   configureWebpack: {
     // Set up all the aliases we use in our app.
@@ -17,7 +18,10 @@ module.exports = {
       alias: {
         assets: resolveSrc('src/assets')
       }
-    }
+    },
+    externals: {
+      sqlite3: "commonjs sqlite3"
+    },
   },
   css: {
     // Enable CSS source maps.
