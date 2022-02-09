@@ -6,33 +6,37 @@ import webdriver from "selenium-webdriver";
 import fs from "fs";
 
 class Selenium {
-	constructor(_driver, _driver_config) {
-		this.driver = _driver;
-		this.driver_config = _driver_config;
+	constructor(driver, driver_config) {
+		this._driver = driver;
+		this._driver_config = driver_config;
+		this._webDriver = null;
 	}
 
-	// 스크린샷 생성
-	createScreenshot(target_url, screenshot_config, driver_config = this.driver_config){
-		this.driver.then(resolve => resolve.build())
+	connect(target_url, driver_config = this._driver_config){
+		 this._webDriver = this._driver.then(resolve => resolve.build())
 			.then(async resolve => {
 				await resolve.get(driver_config.server_url);
 				await resolve.manage().addCookie(driver_config.cookie);
-				return resolve;
-			})
-			.then(async resolve => {
 				await resolve.get(target_url);
+				return resolve;
+			});
+		return this;
+	}
 
-				// selenium screenshot action
-				await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-				await resolve.sleep(screenshot_config.max_wait_time);
-				await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
-					fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
-						// In case of a error throw err.
-						if (err) {throw err;}
-					});
+	// 스크린샷 생성
+	createScreenshot(screenshot_config){
+		this._webDriver.then(async resolve => {
+			// selenium screenshot action
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
+			await resolve.sleep(parseInt(screenshot_config.max_wait_time));
+			await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
+				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
+					// In case of a error throw err.
+					if (err) {throw err;}
 				});
-				await resolve.quit();
-			})
+			});
+			await resolve.quit();
+		})
 			.catch(err => {
 				throw console.error("[createScreenshot] error :: " + err);
 			})
@@ -42,39 +46,32 @@ class Selenium {
 	}
 
 	// 드래그 후 스크린샷 생성
-	createDragScreenshot(target_url, drag_config, screenshot_config, driver_config = this.driver_config){
-		this.driver.then(resolve => resolve.build())
-			.then(async resolve => {
-				await resolve.get(driver_config.server_url);
-				await resolve.manage().addCookie(driver_config.cookie);
-				return resolve;
-			})
-			.then(async resolve => {
-				await resolve.get(target_url);
-				await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), drag_config.max_wait_time);
-				await resolve.sleep(drag_config.max_wait_time);
+	createDragScreenshot(drag_config, screenshot_config){
+		this._webDriver.then(async resolve => {
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), drag_config.max_wait_time);
+			await resolve.sleep(drag_config.max_wait_time);
 
-				// selenium Drag element
-				const targetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_start_target));
-				const startOffset = await targetElement.getRect();
-				const endTargetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_end_target));
-				const endOffset = await endTargetElement.getRect();
+			// selenium Drag element
+			const targetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_start_target));
+			const startOffset = await targetElement.getRect();
+			const endTargetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_end_target));
+			const endOffset = await endTargetElement.getRect();
 
-				// selenium Drag action
-				const actions = await resolve.actions();
-				await actions.move({ x: parseInt(startOffset.x), y: parseInt(startOffset.y) }).press().move({ x: parseInt(endOffset.width + endOffset.x), y: parseInt(endOffset.height + endOffset.y) }).release().perform();
+			// selenium Drag action
+			const actions = await resolve.actions();
+			await actions.move({ x: parseInt(startOffset.x), y: parseInt(startOffset.y) }).press().move({ x: parseInt(endOffset.width + endOffset.x), y: parseInt(endOffset.height + endOffset.y) }).release().perform();
 
-				// selenium screenshot action
-				await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-				await resolve.sleep(screenshot_config.max_wait_time);
-				await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
-					fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
-						// In case of a error throw err.
-						if (err) {throw err;}
-					});
+			// selenium screenshot action
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
+			await resolve.sleep(screenshot_config.max_wait_time);
+			await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
+				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
+					// In case of a error throw err.
+					if (err) {throw err;}
 				});
-				await resolve.quit();
-			})
+			});
+			await resolve.quit();
+		})
 			.catch(err => {
 				throw console.error("[createDragScreenshot] error :: " + err);
 			})
@@ -84,57 +81,48 @@ class Selenium {
 	};
 
 	// 드래그 이후 팝업 스크린샷 생성
-	createDragPopupScreenshot(target_url, drag_config, screenshot_config, driver_config = this.driver_config) {
-		this.driver.then(resolve => resolve.build())
-			.then(async resolve => {
-				await resolve.get(driver_config.server_url);
-				await resolve.manage().addCookie(driver_config.cookie);
-				return resolve;
-			})
-			.then(async resolve => {
-				await resolve.get(target_url);
+	createDragPopupScreenshot(target_url, drag_config, screenshot_config) {
+		this._webDriver.then(async resolve => {
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), drag_config.max_wait_time);
+			await resolve.sleep(drag_config.max_wait_time);
 
-				await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), drag_config.max_wait_time);
+			// selenium Drag element
+			const targetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_start_target));
+			const startOffset = await targetElement.getRect();
+			const endTargetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_end_target));
+			const endOffset = await endTargetElement.getRect();
 
-				await resolve.sleep(drag_config.max_wait_time);
+			// selenium Drag action
+			const actions = await resolve.actions();
+			await actions.move({ x: parseInt(startOffset.x) - 5, y: parseInt(startOffset.y) }).press().move({ x: parseInt(endOffset.width + endOffset.x), y: parseInt(endOffset.height + endOffset.y) }).release().perform();
 
-				// selenium Drag element
-				const targetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_start_target));
-				const startOffset = await targetElement.getRect();
-				const endTargetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_end_target));
-				const endOffset = await endTargetElement.getRect();
+			await resolve.sleep(2000);
 
-				// selenium Drag action
-				const actions = await resolve.actions();
-				await actions.move({ x: parseInt(startOffset.x) - 5, y: parseInt(startOffset.y) }).press().move({ x: parseInt(endOffset.width + endOffset.x), y: parseInt(endOffset.height + endOffset.y) }).release().perform();
+			// selenium new window action
+			const originalWindow = await resolve.getWindowHandle();
+			const windows = await resolve.getAllWindowHandles();
 
-				await resolve.sleep(2000);
-
-				// selenium new window action
-				const originalWindow = await resolve.getWindowHandle();
-				const windows = await resolve.getAllWindowHandles();
-
-				// selenium new window switching
-				if(windows.length >= 1){
-					windows.forEach(async handle => {
-						if (handle !== originalWindow) {
-							await resolve.switchTo().window(handle);
-						}
-					});
-				}
-
-				// selenium screenshot action
-				await resolve.sleep(screenshot_config.max_wait_time);
-				await resolve.wait(webdriver.until.elementLocated(webdriver.By.className(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-				await resolve.sleep(screenshot_config.max_wait_time);
-				await resolve.findElement(webdriver.By.className(screenshot_config.screenshot_target_class)).takeScreenshot().then(img => {
-					fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
-						// In case of a error throw err.
-						if (err) {throw err;}
-					});
+			// selenium new window switching
+			if(windows.length >= 1){
+				windows.forEach(async handle => {
+					if (handle !== originalWindow) {
+						await resolve.switchTo().window(handle);
+					}
 				});
-				await resolve.quit();
-			})
+			}
+
+			// selenium screenshot action
+			await resolve.sleep(screenshot_config.max_wait_time);
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.className(screenshot_config.wait_target)), screenshot_config.max_wait_time);
+			await resolve.sleep(screenshot_config.max_wait_time);
+			await resolve.findElement(webdriver.By.className(screenshot_config.screenshot_target_class)).takeScreenshot().then(img => {
+				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
+					// In case of a error throw err.
+					if (err) {throw err;}
+				});
+			});
+			await resolve.quit();
+		})
 			.catch(err => {
 				throw console.error("[createDragPopupScreenshot] error :: " + err);
 			})
@@ -144,42 +132,33 @@ class Selenium {
 	}
 
 	// 클릭 이후 스크린샷 생성
-	createClickScreenshot(target_url, click_target, screenshot_config, driver_config = this.driver_config){
-		this.driver.then(resolve => resolve.build())
-			.then(async resolve => {
-				await resolve.get(driver_config.server_url);
-				await resolve.manage().addCookie(driver_config.cookie);
-				return resolve;
-			})
-			.then(async resolve => {
-				await resolve.get(target_url);
-				await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-				await resolve.sleep(screenshot_config.max_wait_time);
+	createClickScreenshot(click_target, screenshot_config){
+		this._webDriver.then(async resolve => {
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
+			await resolve.sleep(screenshot_config.max_wait_time);
 
-				// selenium click element
-				const targetElement = await resolve.findElement(webdriver.By.css(click_target));
+			// selenium click element
+			const targetElement = await resolve.findElement(webdriver.By.css(click_target));
 
-				// selenium click action
-				const actions = await resolve.actions();
-				await actions.move({ origin: targetElement }).press().pause(1).release().perform();
+			// selenium click action
+			const actions = await resolve.actions();
+			await actions.move({ origin: targetElement }).press().pause(1).release().perform();
 
-				// selenium screenshot action
-				await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-				await resolve.sleep(screenshot_config.max_wait_time);
-				await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
-					fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
-						// In case of a error throw err.
-						if (err) {throw err;}
-					});
+			// selenium screenshot action
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
+			await resolve.sleep(screenshot_config.max_wait_time);
+			await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
+				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
+					// In case of a error throw err.
+					if (err) {throw err;}
 				});
-				// await resolve.quit();
-			})
-			.catch(err => {
-				throw console.error("[createClickScreenshot] error :: " + err);
-			})
-			.finally(()=>{
-				console.log("[createClickScreenshot] complate");
 			});
+			await resolve.quit();
+		}).catch(err => {
+			throw console.error("[createClickScreenshot] error :: " + err);
+		}).finally(()=>{
+			console.log("[createClickScreenshot] complate");
+		});
 	}
 }
 
