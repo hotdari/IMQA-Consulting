@@ -14,7 +14,7 @@ class Project {
       // reg_date : 등록 시간
       // last_update : 마지막 업데이트 시간
       // message : 대화 내용 (컨설팅을 진행하시겠습니까? ~~ 해당 날짜로 컨설팅 기간을 선택합니다.)
-      console.log('create Project ::: ', arg);
+      console.log('create Project :: ', arg);
     });
   }
   selectProjectByApp(arg){
@@ -26,15 +26,15 @@ class Project {
       });
     })
   }
-  selectProjectMessage(arg){
-    return new Promise((resolve, reject) => {
-      this.dao.get(`SELECT message FROM project WHERE project_id = ${arg}`, (err, rows) => {
-        console.log(rows);
-        if(err){return reject(err);}
-        resolve(rows);
-      });
-    })
-  }
+  // selectProjectMessage(arg){
+  //   return new Promise((resolve, reject) => {
+  //     this.dao.get(`SELECT message FROM project WHERE project_id = ${arg}`, (err, rows) => {
+  //       console.log(rows);
+  //       if(err){return reject(err);}
+  //       resolve(rows);
+  //     });
+  //   })
+  // }
   insertProject(arg){
     return this.dao.run('INSERT INTO project VALUES(${arg.app_id}, ${arg.project_name}, datetime(now), datetime(now), ${arg.message})',[], (err,arg)=>{});
   }

@@ -10,12 +10,12 @@ class Report {
 
   createTable(){
     this.dao.run('CREATE TABLE IF NOT EXISTS report ( report_id INTEGER PRIMARY KEY AUTOINCREMENT, FOREIGN KEY(project_id) REFERENCES project(project_id), desc TEXT, content TEXT )',[], arg=>{
-      console.log('create', arg);
+      console.log('create Report :: ', arg);
     });
   }
   selectReport(arg){
     return new Promise((resolve, reject) => {
-      this.dao.get(`SELECT * FROM report WHERE report_id = ${arg}`, (err, rows) => {
+      this.dao.get(`SELECT * FROM report WHERE project_id = ${arg}`, (err, rows) => {
         console.log(rows);
         if(err){return reject(err);}
         resolve(rows);

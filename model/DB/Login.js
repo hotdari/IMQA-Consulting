@@ -10,7 +10,7 @@ class Login {
   createTable(){
     // this.dao.run('CREATE TABLE IF NOT EXISTS login (id TEXT PRIMARY KEY, password TEXT, token TEXT, last_login TEXT)',[], arg=>{
     this.dao.run('CREATE TABLE IF NOT EXISTS login (id TEXT PRIMARY KEY, token TEXT, last_login TEXT)',[], arg=>{
-      console.log('create', arg);
+      console.log('create Login :: ', arg);
     });
   }
   selectLogin(arg){

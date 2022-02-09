@@ -9,7 +9,7 @@ class Config {
 
   createTable(){
     this.dao.run('CREATE TABLE IF NOT EXISTS config (server_url TEXT PRIMARY KEY, workspace TEXT, service TEXT NOT NULL DEFAULT "mpm")',[], arg=>{
-      console.log('create', arg);
+      console.log('create Config :: ', arg);
     });
   }
   selectConfig(arg){

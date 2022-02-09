@@ -11,7 +11,7 @@ class Message {
 
   createTable(){
     this.dao.run('CREATE TABLE IF NOT EXISTS message ( message_type TEXT PRIMARY KEY, content TEXT )',[], arg=>{
-      console.log('BOT Message create :: ', arg);
+      console.log('create BOT Message :: ', arg);
     });
   }
   insertSampleMessage(arg){

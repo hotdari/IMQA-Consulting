@@ -15,7 +15,7 @@ class Analysis {
       // reg_date : 등록 시간
       // last_update : 마지막 업데이트 시간
       // message : 대화 내용 (셀레니움에서 저장한 이미지 파일 이름 & 사용자가 입력한 컨설팅 내용)
-      console.log('create Analysis ::: ', arg);
+      console.log('create Analysis :: ', arg);
     });
   }
   selectAnalysisMessage(arg){
@@ -28,7 +28,7 @@ class Analysis {
     })
   }
   insertAnalysis(arg){
-    return this.dao.run('INSERT INTO analysis VALUES(${arg.analysis_type}, ${arg.project_id}, datetime(now), datetime(now), ${message})',[], (err,arg)=>{});
+    return this.dao.run('INSERT INTO analysis VALUES(${arg.analysis_type}, ${arg.project_id}, datetime(now), datetime(now), ${arg.message})',[], (err,arg)=>{});
   }
   updateAnalysis(arg){
     return this.dao.run(`UPDATE analysis SET last_update=datetime(now) WHERE project_id = ${arg.project_id} AND analysis_type = ${arg.analysis_type}`, (err,arg)=>{});
