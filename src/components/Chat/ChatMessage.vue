@@ -32,12 +32,12 @@ export default {
 	},
 	methods: {
 		test: function () {
-			const target_url = "http://ote-mpm.imqa.io/mpm/32/report";
+			const target_url = "http://ote-mpm.imqa.io/mpm/32/statistics";
 			const screenshot_config = {
-				wait_target: "#page1",
+				wait_target: ".histogram",
 				max_wait_time: 2000,
-				screenshot_target: "#page1",
-				screenshot_image_name: "5156156"
+				screenshot_target: ".histogram",
+				screenshot_image_name: "histogram11_22"
 			};
 
 			const drag_config = {
@@ -46,7 +46,7 @@ export default {
 				drag_end_target: ".histogram",
 				max_wait_time: 5000
 			};
-			selenium.createClickScreenshot(target_url, ".version-apply-btn", screenshot_config);
+			selenium.connect(target_url).createDragScreenshot(drag_config, screenshot_config);
 		}
 	}
 };
