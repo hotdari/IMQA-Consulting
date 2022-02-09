@@ -32,6 +32,12 @@ class Selenium {
 					});
 				});
 				await resolve.quit();
+			})
+			.catch(err => {
+				throw console.error("[createScreenshot] error :: " + err);
+			})
+			.finally(()=>{
+				console.log("[createScreenshot] complate");
 			});
 	}
 
@@ -68,6 +74,12 @@ class Selenium {
 					});
 				});
 				await resolve.quit();
+			})
+			.catch(err => {
+				throw console.error("[createDragScreenshot] error :: " + err);
+			})
+			.finally(()=>{
+				console.log("[createDragScreenshot] complate");
 			});
 	};
 
@@ -122,6 +134,12 @@ class Selenium {
 					});
 				});
 				await resolve.quit();
+			})
+			.catch(err => {
+				throw console.error("[createDragPopupScreenshot] error :: " + err);
+			})
+			.finally(()=>{
+				console.log("[createDragPopupScreenshot] complate");
 			});
 	}
 
@@ -155,6 +173,12 @@ class Selenium {
 					});
 				});
 				// await resolve.quit();
+			})
+			.catch(err => {
+				throw console.error("[createClickScreenshot] error :: " + err);
+			})
+			.finally(()=>{
+				console.log("[createClickScreenshot] complate");
 			});
 	}
 }

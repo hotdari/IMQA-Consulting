@@ -11,6 +11,7 @@ export const driver = new Promise((resolve, reject) => {
 			}
 		})
 		.forBrowser("chrome")
-	  .setChromeOptions(new chrome.Options().windowSize({ width: 1920, height: 1700 }));
+	  // .setChromeOptions(new chrome.Options().windowSize({ width: 1920, height: 1700 }));
+		.setChromeOptions(new chrome.Options().addArguments("--lang=ko").windowSize({ width: 1920, height: 1700 }).headless());
 	  resolve(promiseDriver);
 });
