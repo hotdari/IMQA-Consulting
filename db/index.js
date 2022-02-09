@@ -1,4 +1,4 @@
-// const sample = require("../pptxConvertor/dbSample.js");
+// const sample = require("../pptxConvertor/dbReportSample.js");
 const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 let isConn = false;
