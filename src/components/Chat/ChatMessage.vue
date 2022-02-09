@@ -17,71 +17,39 @@
 </template>
 
 <script>
-import {driver} from "../../../driver";
-import webdriver from "selenium-webdriver";
-import chrome from "selenium-webdriver/chrome";
-
-const fs = require('fs')
+import selenium from "../../../model/Selenium";
 
 
 export default {
-  props: {
-    user: String,
-    time: String,
-    body: String,
-    action: String,
-  },
-  mounted() {
-    this.$refs['action'].addEventListener('click', async function(event) {console.log('clicked: ', event.target.dataset); })
-  },
-  methods: {
-    // test : async function () {
-    //   driver.then(resolve => resolve.build())
-    //         .then(resolve => {
-    //           resolve.get("http://www.google.com")
-    //           return resolve;
-    //         })
-    //         .then(resolve => {
-    //           resolve.findElement(webdriver.By.name("q")).sendKeys('webdriver')
-    //           return resolve;
-    //         })
-    //         .then(resolve => {
-    //           resolve.findElement(webdriver.By.name("btnK")).click();
-    //           return resolve;
-    //         })
-    //         .then(async resolve => {
-    //           await resolve.wait(webdriver.until.elementLocated(webdriver.By.id("rso")), 5000);
-    //           await resolve.findElement(webdriver.By.id("rso")).takeScreenshot();
-    //           await resolve.quit();
-    //         })
-    // }
-    test : async function () {
-      driver.then(resolve => resolve.build())
-        .then(async resolve => {
-          await resolve.get("http://ote-mpm.imqa.io/")
-          await resolve.manage().addCookie({
-            name: 'IMQA_OTE_SESSION',
-            value: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDM3Nzk4MDIsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYWRtaW5AaW1xYS5pbyIsImVtYWlsIjoiYWRtaW5AaW1xYS5pbyIsIm5pY2tuYW1lIjoi6rSA66as7J6QIiwiaXNfc3VwZXJ1c2VyIjoxLCJ1c2VyX3R6Ijo5LCJpYXQiOjE2NDMxNzUwMDIsImlzcyI6Im1wbS5pbXFhLmlvIiwic3ViIjoibXBtIn0.p-3DmsHjkhHpf-KwoRByjTJNSkePjEu05h4IpmCaUsA',
-            domain: '.imqa.io',
-            path: '/',
-            secure: false
-          });
-          return resolve;
-        })
-        .then(async resolve => {
-          await resolve.get("http://ote-mpm.imqa.io/mpm/32/management/reference")
-          await resolve.wait(webdriver.until.elementLocated(webdriver.By.className("setting-body")), 5000);
-          await resolve.findElement(webdriver.By.className("setting-body")).takeScreenshot().then(img => {
-            fs.writeFile('write_test_file.png', img, 'base64',(err) => {
-              // In case of a error throw err.
-              if (err) throw err;
-            })
-          });
-          await resolve.quit();
-        })
-    }
-  }
-}
+	props: {
+		user: String,
+		time: String,
+		body: String,
+		action: String
+	},
+	mounted() {
+		this.$refs.action.addEventListener("click", async function (event) {console.log("clicked: ", event.target.dataset); });
+	},
+	methods: {
+		test: function () {
+			const target_url = "http://ote-mpm.imqa.io/mpm/32/report";
+			const screenshot_config = {
+				wait_target: "#page1",
+				max_wait_time: 2000,
+				screenshot_target: "#page1",
+				screenshot_image_name: "5156156"
+			};
+
+			const drag_config = {
+				wait_target: ".histogram",
+				drag_start_target: ".histogram",
+				drag_end_target: ".histogram",
+				max_wait_time: 5000
+			};
+			selenium.createClickScreenshot(target_url, ".version-apply-btn", screenshot_config);
+		}
+	}
+};
 </script>
 
 <style lang="scss" scoped>
