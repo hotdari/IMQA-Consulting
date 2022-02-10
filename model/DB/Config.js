@@ -16,21 +16,22 @@ class Config {
     this.dao = dao;
   }
 
+  /**
+   * 테이블 생성
+   * server_url : 라이브 서버 URL
+   * workspace : 로컬 경로
+   * service : "MPM" (default)
+   */
   createTable(){
-    /**
-     * 테이블 생성
-     * server_url : 라이브 서버 URL
-     * workspace : 로컬 경로
-     * service : "MPM" (default)
-     */
     this.dao.run('CREATE TABLE IF NOT EXISTS config (server_url TEXT PRIMARY KEY, workspace TEXT, service TEXT NOT NULL DEFAULT "mpm")',[], arg=>{
       console.log('create Config :: ', arg);
     });
   }
+
+  /**
+   * config 설정 가져오기
+   */
   selectConfig(arg){
-    /**
-     * config 설정 가져오기
-     */
     return new Promise((resolve, reject) => {
       this.dao.get(`SELECT * FROM config`, (err, rows) => {
         if(err){return reject(err);}
@@ -38,20 +39,22 @@ class Config {
       });
     })
   }
+
+  /**
+   * config 설정 저장
+   * @param server_url  String  라이브 서버 URL
+   * @param workspace String  로컬 경로
+   */
   insertConfig(arg){
-    /**
-     * config 설정 저장
-     * @param server_url  String  라이브 서버 URL
-     * @param workspace String  로컬 경로
-     */
     return this.dao.run('INSERT INTO config VALUES(?,?)',[arg.server_url, arg.workspace], (err,arg)=>{});
   }
+
+  /**
+   * config 설정 수정(로컬 경로를 수정하기 위함)
+   * @param server_url  String  라이브 서버 URL
+   * @param workspace String  로컬 경로
+   */
   updateConfig(arg){
-    /**
-     * config 설정 수정(로컬 경로를 수정하기 위함)
-     * @param server_url  String  라이브 서버 URL
-     * @param workspace String  로컬 경로
-     */
     return this.dao.run(`UPDATE config SET workspace=${arg.workspace} WHERE server_url=${arg.server_url}`, (err,arg)=>{});
   }
 }
