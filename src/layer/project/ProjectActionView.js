@@ -5,6 +5,7 @@ import {CommonActionView} from "../common/CommonActionView"
 import {ActionViewUtil} from "../common/ActionViewUtil"
 import {ActionViewContext} from "@/layer/common/ActionViewContext";
 import {ProjectDao} from "@/../model/DB/Project"
+import {ProjectElectronModel} from "../../../model/Electron/ProjectElectronModel"
 
 /**
  *
@@ -32,10 +33,14 @@ export class ProjectActionView extends CommonActionView {
     this._myActionView = this._myActionView.doAction(context, txId);
   }
 
-  nextAction(){}
+  nextAction(context, txId){
+    debugger
+    context.setBean(txId, this.nextActionObj);
+    this.nextActionObj.doAction(context, txId)
+  }
 
   setNextAction(obj){
-    this.nextActionObj = nextAction;
+    this.nextActionObj = obj;
     return this;
   }
 
@@ -82,6 +87,9 @@ export class ProjectActionView extends CommonActionView {
       this.actionView.innerAction(function (context, txId) {
         console.log("앱버전 정보 받아오기", context)
         // 앱버전 정보 받아오기
+        ProjectElectronModel.newInstance().getAppVersion().then(function(data){
+          console.log(data);
+        })
 
         // 화면 input 출력
         context.getVue().$emit('message',
@@ -89,7 +97,11 @@ export class ProjectActionView extends CommonActionView {
             user: "IMQA Bot",
             time: "오후 1:11",
             body: "<p>앱버전을 선택해주세요.</p>",
-            action: "<select data-event='selectVersion' data-txId='" + txId +"'><option value='1.0'>1.0</option><option value='2.0'>2.0</option></select><div class='mt-1'><button data-event='startVersion' data-txId='" + txId +"' class='btn btn-primary btn-sm'>선택된 버전으로 시작합니다.</button><button data-event='cancelVersion' class='btn btn-secondary btn-sm'>취소합니다</button></div>"
+            action: "<select data-event='selectVersion' data-txId='" + txId +"'>" +
+              "<option value='1.0'>1.0</option>" +
+              "<option value='2.0'>2.0</option>" +
+              "</select>" +
+              "<div class='mt-1'><button data-event='startVersion' data-txId='" + txId +"' class='btn btn-primary btn-sm'>선택된 버전으로 시작합니다.</button><button data-event='cancelVersion' class='btn btn-secondary btn-sm'>취소합니다</button></div>"
           })
 
         return this.nextActionObj
@@ -129,13 +141,16 @@ export class ProjectActionView extends CommonActionView {
           })
 
         let dao = new ProjectDao();
-        dao.insertProject({app_id:'123', project_name:'123', message : 'sbdfkj'})
-        //   .then(()=>{
-        //   debugger
-        //   console.log("success")
-        // }) ;
+        dao.insertProject({app_id:'123', project_name:'123', message : 'sbdfkj'}).then(key=>{
+         context.getVue().$emit('message',
+           {
+             user: "사용자",
+             time: "오후 1:12",
+             body: "<p>프로젝트 생성이 완료되었습니다 " + key + "</p>",
+           })
 
-        return this.nextActionObj;
+          context.getBean(txId).nextAction(context, txId);
+        })
       }),
    ];
 
@@ -143,23 +158,6 @@ export class ProjectActionView extends CommonActionView {
 
     return this;
   }
-
-
-}
-
-class MakeProjectAction extends CommonActionView {
-
-  constructor(parentAction) {
-    super();
-    this.parentAction = parentAction;
-  }
-
-  doAction() {
-
-  }
-
-  get parentAction() { return this._parentAction; }
-  set parentAction(parentAction){ this._parentAction = parentAction;  }
 
 
 }

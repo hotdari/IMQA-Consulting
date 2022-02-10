@@ -97,6 +97,7 @@ import DashboardContent from "./Content.vue";
 import {ProjectActionView} from "../../layer/project/ProjectActionView";
 import {ActionViewContext} from "@/layer/common/ActionViewContext";
 import {ActionViewUtil} from "@/layer/common/ActionViewUtil";
+import {AnalysisActionView} from "@/layer/project/AnaysisActionView";
 
 export default {
 	components: {
@@ -196,6 +197,9 @@ export default {
       // context.setVue(new Vue())
       let projectActionView = ProjectActionView.newInstance().makeProject();
       context.setBean(myTxId, projectActionView);
+      let analysisActionView = AnalysisActionView.newInstance().analysisPreview();
+      projectActionView.setNextAction(analysisActionView);
+
 
       projectActionView.doAction(context, myTxId);
 

@@ -30,9 +30,16 @@ export default {
 	},
 	mounted() {
 		this.$refs.action.addEventListener("click", async function (event) {
-		  console.log("clicked: ", event.target.dataset);
-      let context = ActionViewContext.getInstance();
-      context.getBean(event.target.dataset.txid).doAction(context, event.target.dataset.txid);
+
+		  if(event.target.dataset.event === 'startConsulting') {
+		    //powerpoint download
+      } else {
+        console.log("clicked: ", event.target.dataset);
+        let context = ActionViewContext.getInstance();
+        context.getBean(event.target.dataset.txid).doAction(context, event.target.dataset.txid);
+      }
+
+
 		});
 	},
 	methods: {
