@@ -30,7 +30,7 @@
 
                   <b-form-checkbox v-model="model.rememberMe">아이디 저장</b-form-checkbox>
                   <div class="text-center">
-                    <base-button type="primary" native-type="submit" class="my-4">Sign In</base-button>
+                    <base-button type="primary" native-type="submit" class="my-4 loginBtn">Sign In</base-button>
                   </div>
                 </b-form>
               </validation-observer>
@@ -50,6 +50,9 @@
   </div>
 </template>
 <script>
+import login from "@/api/Login";
+
+import { ipcRenderer } from "electron";
 export default {
 	data() {
 		return {
@@ -62,7 +65,9 @@ export default {
 	},
 	methods: {
 		onSubmit() {
-			this.$router.push({ path: "/workspace" });
+			ipcRenderer.send("loginBtn");
+			// login.connect();
+			// this.$router.push({ path: "/workspace" });
 		}
 	}
 };

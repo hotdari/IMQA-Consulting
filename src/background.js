@@ -1,10 +1,11 @@
 "use strict";
-
 import { app, protocol, BrowserWindow, ipcMain, dialog } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 
 import { exec } from "child_process";
+import { directory } from "../model/Electron/Diretory";
+import { login } from "../model/Electron/Login";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -18,14 +19,14 @@ async function createWindow() {
 	const win = new BrowserWindow({
 		width: 1024,
 		height: 768,
-    useContentSize: true,
+		useContentSize: true,
 		webPreferences: {
 			// Use pluginOptions.nodeIntegration, leave this alone
 			// See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
 			nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
 			contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-      // 로컬파일 접근을 위해 사용
-      webSecurity: false
+			// 로컬파일 접근을 위해 사용
+			webSecurity: false
 		}
 	});
 
@@ -90,14 +91,7 @@ if (isDevelopment) {
 	}
 }
 
-// 파일 디렉토리
-ipcMain.on("open-directory-dialog", event => {
-	console.log("open-directory-dialog");
-	dialog.showOpenDialog(
-		{
-			properties: ["openDirectory"]
-		}).then(result => {
-		console.log("open-directory-dialog-reply", result);
-		event.reply("open-directory-dialog-reply", result);
-	});
-});
+directory();
+login();
+
+
