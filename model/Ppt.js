@@ -1,3 +1,7 @@
+/**
+ * PPT 생성
+ */
+
 // import test from "../db";
 import pptxgen from "pptxgenjs";
 const html2pptxgenjs = require('html2pptxgenjs');
