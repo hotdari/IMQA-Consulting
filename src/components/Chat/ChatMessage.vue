@@ -37,7 +37,7 @@ export default {
 				wait_target: ".histogram",
 				max_wait_time: 2000,
 				screenshot_target: ".histogram",
-				screenshot_image_name: "histogram11_22"
+				screenshot_image_name: "histogram1122_22"
 			};
 
 			const drag_config = {
@@ -46,7 +46,8 @@ export default {
 				drag_end_target: ".histogram",
 				max_wait_time: 5000
 			};
-			selenium.connect(target_url).createDragScreenshot(drag_config, screenshot_config);
+      
+			selenium.connect(target_url).createDragScreenshot(drag_config, screenshot_config, 5000);
 		}
 	}
 };
