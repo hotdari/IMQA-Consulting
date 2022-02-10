@@ -5,13 +5,29 @@ import { driver } from "../driver";
 import webdriver from "selenium-webdriver";
 import fs from "fs";
 
+/**
+ * Selenium Class
+ * 역할 : 셀레니움의 접속, 스크린샷 생성, 드래그 이후 스크린샷 생성, 클릭 이후 스크린샷생성, 드래그 이후 팝업 스크린샷 생성
+ * webdriver, selenium webdriver 필요
+ */
 class Selenium {
+	/**
+   * 인스턴스로 생성시 필요한 파라미터
+   * @param driver          the webdriver(크롬)
+   * @param driver_config   Object webdriver server_url, login cookie(object)
+   */
 	constructor(driver, driver_config) {
 		this._driver = driver;
 		this._driver_config = driver_config;
 		this._webDriver = null;
 	}
 
+	/**
+   * selenium 타겟 url로 브라우저 접속
+   * @param target_url      String selenium 브라우저 접속 url
+   * @param driver_config   Object selenium 타겟 사이트 접속시 필요한 쿠키 객체
+   * @returns {Selenium}
+   */
 	connect(target_url, driver_config = this._driver_config){
 		 this._webDriver = this._driver.then(resolve => resolve.build())
 			.then(async resolve => {
@@ -23,7 +39,10 @@ class Selenium {
 		return this;
 	}
 
-	// 스크린샷 생성
+	/**
+   * selenium 스크린샷 생성
+   * @param screenshot_config selenium 스크린샷 conf 객체
+   */
 	createScreenshot(screenshot_config){
 		this._webDriver.then(async resolve => {
 			// selenium screenshot action
@@ -45,7 +64,11 @@ class Selenium {
 			});
 	}
 
-	// 드래그 후 스크린샷 생성
+	/**
+   * selenium 드래그 후 스크린샷 생성
+   * @param drag_config         Object selenium 드래그 conf 객체
+   * @param screenshot_config   Object selenium 스크린샷 conf 객체
+   */
 	createDragScreenshot(drag_config, screenshot_config){
 		this._webDriver.then(async resolve => {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), drag_config.max_wait_time);
@@ -80,8 +103,12 @@ class Selenium {
 			});
 	};
 
-	// 드래그 이후 팝업 스크린샷 생성
-	createDragPopupScreenshot(target_url, drag_config, screenshot_config) {
+	/**
+   * selenium 드래그 후 팝업의 스크린샷 생성
+   * @param drag_config         Object selenium 드래그 conf 객체
+   * @param screenshot_config   Object selenium 스크린샷 conf 객체
+   */
+	createDragPopupScreenshot(drag_config, screenshot_config) {
 		this._webDriver.then(async resolve => {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), drag_config.max_wait_time);
 			await resolve.sleep(drag_config.max_wait_time);
@@ -132,6 +159,11 @@ class Selenium {
 	}
 
 	// 클릭 이후 스크린샷 생성
+	/**
+   * selenium 클릭 후 스크린샷 생성
+   * @param click_target        String 클릭할 타겟 ("#id, .class" 형식)
+   * @param screenshot_config   Object selenium 스크린샷 conf
+   */
 	createClickScreenshot(click_target, screenshot_config){
 		this._webDriver.then(async resolve => {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
