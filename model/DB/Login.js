@@ -15,23 +15,24 @@ class Login {
     this.dao = dao;
   }
 
+  /**
+   * 테이블 생성
+   * id : 라이브 서버 사용자 ID (email)
+   * token : 라이브 서버 로그인 토큰
+   * last_login : 마지막 로그인 시간
+   */
   createTable(){
-    /**
-     * 테이블 생성
-     * id : 라이브 서버 사용자 ID (email)
-     * token : 라이브 서버 로그인 토큰
-     * last_login : 마지막 로그인 시간
-     */
     // this.dao.run('CREATE TABLE IF NOT EXISTS login (id TEXT PRIMARY KEY, password TEXT, token TEXT, last_login TEXT)',[], arg=>{
     this.dao.run('CREATE TABLE IF NOT EXISTS login (id TEXT PRIMARY KEY, token TEXT, last_login TEXT)',[], arg=>{
       console.log('create Login :: ', arg);
     });
   }
+
+  /**
+   * 컨설팅 ID로 레포트 정보 가져오기
+   * @param id  Number 라이브 서버 사용자 ID
+   */
   selectLogin(arg){
-    /**
-     * 컨설팅 ID로 레포트 정보 가져오기
-     * @param id  Number 라이브 서버 사용자 ID
-     */
     return new Promise((resolve, reject) => {
       this.dao.get(`SELECT * FROM login WHERE id=${arg.id}`, (err, rows) => {
         if(err){return reject(err);}
@@ -39,19 +40,21 @@ class Login {
       });
     })
   }
+
+  /**
+   * 라이브 정보 insert
+   * @param id  String 라이브 서버 사용자 ID
+   * @param token  String 토큰
+   */
   insertLogin(arg){
-    /**
-     * 라이브 정보 insert
-     * @param id  String 라이브 서버 사용자 ID
-     * @param token  String 토큰
-     */
     return this.dao.run('INSERT INTO login VALUES(${arg.id}, ${arg.token}, datetime(now))', (err,arg)=>{});
   }
+
+  /**
+   * 라이브 정보 update
+   * @param id  String 라이브 서버 사용자 ID
+   */
   updateLogin(arg){
-    /**
-     * 라이브 정보 update
-     * @param id  String 라이브 서버 사용자 ID
-     */
     return this.dao.run(`UPDATE login SET last_login=datetime(now) WHERE id=${arg.id}`, (err,arg)=>{});
   }
 }
