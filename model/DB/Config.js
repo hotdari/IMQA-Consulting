@@ -54,9 +54,9 @@ class Config {
    * @param server_url  String  라이브 서버 URL
    * @param workspace String  로컬 경로
    */
-	updateConfig(arg){
-		return this.dao.run(`UPDATE config SET workspace=${arg.workspace} WHERE server_url=${arg.server_url}`, (err, arg)=>{});
-	}
+  updateConfig(arg){
+    return this.dao.run(`UPDATE config SET workspace='${arg.workspace}' WHERE server_url='${arg.server_url}'`, (err,arg)=>{});
+  }
 }
 
 const config = new Config(db);
