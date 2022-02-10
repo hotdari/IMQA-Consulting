@@ -30,7 +30,7 @@ class Report {
    */
   selectReport(arg){
     return new Promise((resolve, reject) => {
-      this.dao.get(`SELECT * FROM report WHERE project_id = ${arg.project_id}`, (err, rows) => {
+      this.dao.get(`SELECT * FROM report WHERE project_id = '${arg.project_id}'`, (err, rows) => {
         console.log(rows);
         if(err){return reject(err);}
         resolve(rows);
@@ -46,7 +46,7 @@ class Report {
    * @param content Object 컨설팅 내용 (JSON Array)
    */
   insertReport(arg){
-    return this.dao.run(`INSERT INTO report VALUES(${arg.report_id}, ${arg.project_id}, ${arg.desc}, ${JSON.stringify(arg.content)})`,[], (err,arg)=>{});
+    return this.dao.run(`INSERT INTO report VALUES('${arg.report_id}', '${arg.project_id}', '${arg.desc}', '${JSON.stringify(arg.content)}')`,[], (err,arg)=>{});
     // 샘플
     // return this.dao.run('INSERT INTO report VALUES(?,?,?,?)',[1, 1, "설명", JSON.stringify(sample)], (err,arg)=>{});
   }

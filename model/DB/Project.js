@@ -30,7 +30,7 @@ class Project {
    */
   selectProjectByApp(arg){
     return new Promise((resolve, reject) => {
-      this.dao.get(`SELECT * FROM project WHERE app_id = ${arg.app_id} ORDER BY reg_date`, (err, rows) => {
+      this.dao.get(`SELECT * FROM project WHERE app_id = '${arg.app_id}' ORDER BY reg_date`, (err, rows) => {
         console.log(rows);
         if(err){return reject(err);}
         resolve(rows);
@@ -44,7 +44,7 @@ class Project {
   //  */
   // selectProjectMessage(arg){
   //   return new Promise((resolve, reject) => {
-  //     this.dao.get(`SELECT message FROM project WHERE project_id = ${arg.project_id}`, (err, rows) => {
+  //     this.dao.get(`SELECT message FROM project WHERE project_id = '${arg.project_id}'`, (err, rows) => {
   //       console.log(rows);
   //       if(err){return reject(err);}
   //       resolve(rows);
@@ -59,7 +59,7 @@ class Project {
    * @param message String  대화 내용
    */
   insertProject(arg){
-    return this.dao.run('INSERT INTO project VALUES(${arg.app_id}, ${arg.project_name}, datetime(now), datetime(now), ${arg.message})',[], (err,arg)=>{});
+    return this.dao.run(`INSERT INTO project VALUES('${arg.app_id}', '${arg.project_name}', datetime(now), datetime(now), '${arg.message}')`,[], (err,arg)=>{});
   }
 
   /**
@@ -69,7 +69,7 @@ class Project {
    * @param message String  대화 내용 -> 있을 수도 없을수도..
    */
   updateProject(arg){
-    return this.dao.run(`UPDATE project SET last_update=datetime(now) WHERE project_id=${arg.project_id}`, (err,arg)=>{});
+    return this.dao.run(`UPDATE project SET last_update=datetime(now) WHERE project_id='${arg.project_id}'`, (err,arg)=>{});
   }
 }
 
