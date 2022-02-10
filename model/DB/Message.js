@@ -28,7 +28,7 @@ class Message {
    * sample 파일에 있는 내용 insert
    */
   insertSampleMessage(){
-    return this.dao.run( `INSERT INTO message VALUES ("project", ${JSON.stringify(sample_project)}), ("analysis", ${JSON.stringify(sample_analysis)} )`, (err,arg)=>{});
+    return this.dao.run( `INSERT INTO message VALUES ("project", '${JSON.stringify(sample_project)}'), ("analysis", '${JSON.stringify(sample_analysis)}')`, (err,arg)=>{});
   }
 
   /**
@@ -43,7 +43,7 @@ class Message {
       });
     })
   }
-  
+
   /**
    * 상세 컨설팅 대화창에서 BOT이 사용하는 메시지 조회
    */
