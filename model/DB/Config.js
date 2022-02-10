@@ -46,7 +46,11 @@ class Config {
    * @param workspace String  로컬 경로
    */
 	insertConfig(arg){
-		return this.dao.run("INSERT INTO config VALUES(?,?)", [arg.server_url, arg.workspace], (err, arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run("INSERT INTO config(server_url, workspace) VALUES(?,?)", [arg.server_url, arg.workspace], function(err,res){
+        resolve(this.lastID)
+      });
+    })
 	}
 
 	/**
@@ -55,7 +59,11 @@ class Config {
    * @param workspace String  로컬 경로
    */
   updateConfig(arg){
-    return this.dao.run(`UPDATE config SET workspace='${arg.workspace}' WHERE server_url='${arg.server_url}'`, (err,arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run(`UPDATE config SET workspace='${arg.workspace}' WHERE server_url='${arg.server_url}'`, function(err,res){
+        resolve(this.changes)
+      });
+    })
   }
 }
 

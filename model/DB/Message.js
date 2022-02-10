@@ -28,7 +28,11 @@ class Message {
    * sample 파일에 있는 내용 insert
    */
   insertSampleMessage(){
-    return this.dao.run( `INSERT INTO message VALUES ("project", '${JSON.stringify(sample_project)}'), ("analysis", '${JSON.stringify(sample_analysis)}')`, (err,arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run( `INSERT INTO message(message_type, content) VALUES ("project", '${JSON.stringify(sample_project)}'), ("analysis", '${JSON.stringify(sample_analysis)}')`, function(err,res){
+        resolve(this.lastID)
+      });
+    })
   }
 
   /**
