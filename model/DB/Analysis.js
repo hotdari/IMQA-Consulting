@@ -19,7 +19,7 @@ class Analysis {
    * message : 대화 내용 (셀레니움에서 저장한 이미지 파일 이름 & 사용자가 입력한 컨설팅 내용)
    */
   createTable(){
-    this.dao.run('CREATE TABLE IF NOT EXISTS analysis (analysis_id INTEGER PRIMARY KEY AUTOINCREMENT, analysis_type TEXT, project_id INTEGER NOT NULL, FOREIGN KEY(project_id) REFERENCES project(project_id), reg_date TEXT, last_update TEXT, message TEXT)',[], arg=>{
+    this.dao.run('CREATE TABLE IF NOT EXISTS analysis (analysis_id INTEGER PRIMARY KEY AUTOINCREMENT, analysis_type TEXT, project_id INTEGER NOT NULL, reg_date TEXT, last_update TEXT, message TEXT, FOREIGN KEY(project_id) REFERENCES project(project_id))',[], arg=>{
       console.log('create Analysis :: ', arg);
     });
   }

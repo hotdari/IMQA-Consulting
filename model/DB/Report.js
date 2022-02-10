@@ -18,7 +18,7 @@ class Report {
    * content : 컨설팅 내용 (String -> JSON Array로 변환 필요)
    */
   createTable(){
-    this.dao.run('CREATE TABLE IF NOT EXISTS report ( report_id INTEGER PRIMARY KEY AUTOINCREMENT, project_id INTEGER NOT NULL, FOREIGN KEY(project_id) REFERENCES project(project_id), desc TEXT, content TEXT )',[], arg => {
+    this.dao.run('CREATE TABLE IF NOT EXISTS report ( report_id INTEGER PRIMARY KEY AUTOINCREMENT, project_id INTEGER NOT NULL, desc TEXT, content TEXT, FOREIGN KEY(project_id) REFERENCES project(project_id) )',[], arg => {
       console.log('create Report :: ', arg);
       return arg
     });
