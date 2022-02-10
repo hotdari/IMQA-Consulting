@@ -6,6 +6,7 @@ import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 import { exec } from "child_process";
 import { directory } from "../model/Electron/Diretory";
 import { login } from "../model/Electron/Login";
+import { projectList } from "../model/Electron/ProjectList";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -93,5 +94,6 @@ if (isDevelopment) {
 
 directory();
 login();
+projectList();
 
 

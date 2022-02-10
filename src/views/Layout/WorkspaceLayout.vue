@@ -33,7 +33,7 @@
                   <div class="consulting-list">
                     <ul>
                       <li :class="{active: isConsultingActive(menu.id, group.id, consultingMenu.id)}" v-for="(consultingMenu, consultingIndex) in group.consultingMenus" :key="consultingMenu.id">
-                        <button @click="getConsulting(menu.id, group.id, consultingMenu.id)">{{ consultingMenu.name }}</button>
+                        <button @click="test()">{{ consultingMenu.name }}</button>
                       </li>
                     </ul>
                   </div>
@@ -94,9 +94,11 @@ function initScrollbar(className) {
 
 import DashboardNavbar from "./DashboardNavbar.vue";
 import DashboardContent from "./Content.vue";
-import {ProjectActionView} from "../../layer/project/ProjectActionView";
-import {ActionViewContext} from "@/layer/common/ActionViewContext";
-import {ActionViewUtil} from "@/layer/common/ActionViewUtil";
+import { ProjectActionView } from "../../layer/project/ProjectActionView";
+import { ActionViewContext } from "@/layer/common/ActionViewContext";
+import { ActionViewUtil } from "@/layer/common/ActionViewUtil";
+import { ipcRenderer } from "electron";
+import selenium from "../../../model/Selenium";
 
 export default {
 	components: {
@@ -190,14 +192,14 @@ export default {
 		addProject(id) {
 			console.log("프로젝트 추가", id);
 
-      let context = ActionViewContext.getInstance();
-      let myTxId = ActionViewUtil.getTxId();
+			const context = ActionViewContext.getInstance();
+			const myTxId = ActionViewUtil.getTxId();
 
-      // context.setVue(new Vue())
-      let projectActionView = ProjectActionView.newInstance().makeProject();
-      context.setBean(myTxId, projectActionView);
+			// context.setVue(new Vue())
+			const projectActionView = ProjectActionView.newInstance().makeProject();
+			context.setBean(myTxId, projectActionView);
 
-      projectActionView.doAction(context, myTxId);
+			projectActionView.doAction(context, myTxId);
 
 
 		},
@@ -209,6 +211,14 @@ export default {
 			this.selectConsulting.selectConsoletingGroupId = parent_id;
 			this.selectConsulting.selectConsultingId = id;
 			console.log("컨설팅 불러오기", id);
+		},
+		test(){
+			console.log("???");
+			ipcRenderer.send("projectList");
+
+			ipcRenderer.on("projectList-reply", (event, arg) => {
+				console.log(arg);
+			});
 		}
 	}
 };
