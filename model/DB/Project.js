@@ -61,7 +61,11 @@ export class ProjectDao {
    * @param message String  대화 내용
    */
   insertProject(arg){
-    return this.dao.run(`INSERT INTO project VALUES('${arg.app_id}', '${arg.project_name}', datetime('now'), datetime('now'), '${arg.message}')`,[], (err,arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run(`INSERT INTO project(app_id, project_name, reg_date, last_update, message) VALUES('${arg.app_id}', '${arg.project_name}', datetime('now'), datetime('now'), '${arg.message}')`, function(err,res){
+        resolve(this.lastID)
+      });
+    })
   }
 
   /**
@@ -71,7 +75,11 @@ export class ProjectDao {
    * @param message String  대화 내용 -> 있을 수도 없을수도..
    */
   updateProject(arg){
-    return this.dao.run(`UPDATE project SET last_update=datetime('now') WHERE project_id='${arg.project_id}'`, (err,arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run(`UPDATE project SET last_update=datetime('now') WHERE project_id='${arg.project_id}'`, function(err,res){
+        resolve(this.changes)
+      });
+    })
   }
 }
 

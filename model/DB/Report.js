@@ -1,9 +1,12 @@
+import sample_project from "../../db/dbMsgProjectSample";
+
 /**
  * 보고서 - PPT 생성을 위한 데이터 관리
  * @type {{slide: [{image: string, logo: string, title: string, desc: string},{image: string, title: string, desc: string},{image: string, title: string, desc: string}]}|{slide?: [{image: string, logo: string, title: string, desc: string},{image: string, title: string, desc: string},{image: string, title: string, desc: string}]}}
  */
 const sample = require("../../db/dbReportSample.js");
 import db from "../../db/db";
+import sample_analysis from "../../db/dbMsgAnalysisSample";
 
 class Report {
   constructor(dao) {
@@ -46,9 +49,13 @@ class Report {
    * @param content Object 컨설팅 내용 (JSON Array)
    */
   insertReport(arg){
-    return this.dao.run(`INSERT INTO report VALUES('${arg.report_id}', '${arg.project_id}', '${arg.desc}', '${JSON.stringify(arg.content)}')`,[], (err,arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run(`INSERT INTO report(project_id, desc, content) VALUES('${arg.project_id}', '${arg.desc}', '${JSON.stringify(arg.content)}')`, function(err,res){
+        resolve(this.lastID)
+      });
+    })
     // 샘플
-    // return this.dao.run('INSERT INTO report VALUES(?,?,?,?)',[1, 1, "설명", JSON.stringify(sample)], (err,arg)=>{});
+    // return this.dao.run('INSERT INTO report(project_id, desc, content) VALUES(?,?,?)',[1, "설명", JSON.stringify(sample)], (err,arg)=>{});
   }
 }
 
