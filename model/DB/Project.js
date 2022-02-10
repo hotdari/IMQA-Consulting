@@ -4,9 +4,11 @@
 
 import db from "../../db/db";
 
-class Project {
-  constructor(dao) {
-    this.dao = dao;
+export class ProjectDao {
+  constructor() {
+    debugger
+    this.dao = db;
+    this.createTable()
   }
 
   /**
@@ -74,5 +76,5 @@ class Project {
 }
 
 
-const project = new Project(db);
-export default project;
+// const project = new Project(db);
+// export default project;

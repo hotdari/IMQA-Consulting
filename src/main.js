@@ -6,9 +6,13 @@ import App from "./App.vue";
 import router from "./routes/router";
 
 import store from "./store";
+import {ActionViewContext} from "@/layer/common/ActionViewContext";
 
 // plugin setup
 Vue.use(DashboardPlugin);
+
+let context = ActionViewContext.getInstance();
+context.setVue(new Vue());
 
 /* eslint-disable no-new */
 new Vue({

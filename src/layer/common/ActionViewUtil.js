@@ -1,5 +1,5 @@
 
-module.exports = class ActionViewUtil {
+export class ActionViewUtil {
   static combineInnerView(arr) {
     let firstAV = null;
     var tmp = null;

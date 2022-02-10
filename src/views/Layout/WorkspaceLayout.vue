@@ -94,6 +94,9 @@ function initScrollbar(className) {
 
 import DashboardNavbar from "./DashboardNavbar.vue";
 import DashboardContent from "./Content.vue";
+import {ProjectActionView} from "../../layer/project/ProjectActionView";
+import {ActionViewContext} from "@/layer/common/ActionViewContext";
+import {ActionViewUtil} from "@/layer/common/ActionViewUtil";
 
 export default {
 	components: {
@@ -186,6 +189,17 @@ export default {
 		},
 		addProject(id) {
 			console.log("프로젝트 추가", id);
+
+      let context = ActionViewContext.getInstance();
+      let myTxId = ActionViewUtil.getTxId();
+
+      // context.setVue(new Vue())
+      let projectActionView = ProjectActionView.newInstance().makeProject();
+      context.setBean(myTxId, projectActionView);
+
+      projectActionView.doAction(context, myTxId);
+
+
 		},
 		addConsulting(id){
 			console.log("컨설팅 추가", id);

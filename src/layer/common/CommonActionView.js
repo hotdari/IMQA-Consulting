@@ -1,7 +1,7 @@
 /**
  *
  */
-module.exports = class CommonActionView {
+export class CommonActionView {
 
   nextActionObj = null;
 
@@ -14,7 +14,7 @@ module.exports = class CommonActionView {
 
   static innerAction(fn) {
     let result = new CommonActionView();
-    CommonActionView.doAction = fn;
+    result.doAction = fn;
     return result;
   }
 
@@ -26,12 +26,10 @@ module.exports = class CommonActionView {
 
   doAction(){}
 
-  nextAction(){}
-
-  setNextAction(){
-    this.nextActionObj = nextAction;
-    return this;
+  nextAction(){
+    return this.nextAction();
   }
+
 
   setPrintAction(param) {
     //todo
@@ -40,6 +38,9 @@ module.exports = class CommonActionView {
   set childAction(childAction) {this._childAction = childAction }
   get childAction() {return this._childAction}
 
+  setContext(context) {
+    this.context = context;
+  }
 
 
 }

@@ -18,6 +18,7 @@
 
 <script>
 import selenium from "../../../model/Selenium";
+import {ActionViewContext} from "@/layer/common/ActionViewContext";
 
 
 export default {
@@ -28,7 +29,11 @@ export default {
 		action: String
 	},
 	mounted() {
-		this.$refs.action.addEventListener("click", async function (event) {console.log("clicked: ", event.target.dataset); });
+		this.$refs.action.addEventListener("click", async function (event) {
+		  console.log("clicked: ", event.target.dataset);
+      let context = ActionViewContext.getInstance();
+      context.getBean(event.target.dataset.txid).doAction(context, event.target.dataset.txid);
+		});
 	},
 	methods: {
 		test: function () {
