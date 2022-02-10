@@ -53,6 +53,7 @@
 import login from "@/api/Login";
 
 import { ipcRenderer } from "electron";
+import selenium from "../../../model/Selenium";
 export default {
 	data() {
 		return {
@@ -65,9 +66,21 @@ export default {
 	},
 	methods: {
 		onSubmit() {
-			ipcRenderer.send("loginBtn");
+			ipcRenderer.send("loginBtn", { id: this.model.email, password: this.model.password });
+
+			ipcRenderer.on("loginBtn-reply", (event, arg) => {
+				if(arg.massage === "error") {
+					alert("계정정보가 없습니다.\n다시 입력해주세요.");
+					return;
+				}
+
+				selenium.setDriverConfig("server_url", "http://ote-mpm.imqa.io");
+				selenium.setDriverConfig("cookie", arg);
+
+				this.$router.push({ path: "/workspace" });
+			});
 			// login.connect();
-			// this.$router.push({ path: "/workspace" });
+
 		}
 	}
 };

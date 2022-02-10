@@ -1,18 +1,17 @@
 import { ipcMain } from "electron";
 import axios from "axios";
-import { setCookie } from "../../src/util/cookie";
+import { getLoginCookies } from "../../src/util/cookie";
+import selenium from "../Selenium";
 
 export function login(){
 	ipcMain.on("loginBtn", function (event, arg) {
+		console.log(arg);
 		axios
-			.post("http://ote.imqa.io/api/user/admin@imqa.io", { username: "admin@imqa.io", password: "djslzja0080" }, { withCredentials: true })
+			.post("http://ote.imqa.io/api/user/" + arg.id, { username: arg.id, password: arg.password })
 			.then(res => {
-				// After successful login, get the set cookie
-				console.log(res.headers["set-cookie"]);
-				setCookie("tesdst", res.headers["set-cookie"]);
-				// Send login task finished event
+				event.reply("loginBtn-reply", getLoginCookies(res.headers["set-cookie"][0]));
 			})
-			.catch(err => console.log(err));
+			.catch(err => event.reply("loginBtn-reply", { massage: "error", error: err }));
 	});
 }
 
