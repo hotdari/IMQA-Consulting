@@ -2,11 +2,12 @@ const ProjectActionView = require("../../../src/layer/project/ProjectActionView"
 const ActionViewContext = require("../../../src/layer/common/ActionViewContext");
 const ActionViewUtil = require("../../../src/layer/common/ActionViewUtil");
 
-test('getTransactionId ', () => {
+
+describe('getTransactionId ', () => {
   console.log(ActionViewUtil.getTxId())
 });
 
-test('ActionViewContext setBean', () => {
+describe('ActionViewContext setBean', () => {
 
   let context = ActionViewContext.getInstance();
   context.setBean(ActionViewUtil.getTxId(), ProjectActionView.newInstance().makeProject());
@@ -15,7 +16,7 @@ test('ActionViewContext setBean', () => {
 
 });
 
-test('ActionViewContext getBean', () => {
+describe('ActionViewContext getBean', () => {
 
   let context = ActionViewContext.getInstance();
   let myTxId = ActionViewUtil.getTxId();
@@ -27,14 +28,14 @@ test('ActionViewContext getBean', () => {
 });
 
 
-test('Project New Instance 테스트 ', () => {
+describe('Project New Instance 테스트 ', () => {
 
   let context = ActionViewContext.getInstance();
   let myTxId = ActionViewUtil.getTxId();
   context.setBean(myTxId, ProjectActionView.newInstance().makeProject());
 
   ProjectActionView.newInstance().makeProject()
-      .nextAction(AnaysisActionView.newInstance().projectAnaysis())
+      // .nextAction(AnaysisActionView.newInstance().projectAnaysis())
       //.nextAction(ReportActionView.newInstance().makePPT())
 
 

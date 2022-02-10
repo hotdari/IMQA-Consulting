@@ -1,6 +1,7 @@
 module.exports = {
   "presets": [
-    "@vue/app"
+    "@vue/app",
+    "@babel/env"
   ],
   "plugins": [
     [
@@ -10,5 +11,6 @@ module.exports = {
         "styleLibraryName": "theme-chalk"
       }
     ]
-  ]
+  ],
+  env: { test: { plugins: [ '@babel/plugin-transform-modules-commonjs', '@babel/plugin-transform-runtime' ] } }
 }
