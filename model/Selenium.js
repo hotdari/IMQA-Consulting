@@ -42,12 +42,14 @@ class Selenium {
 	/**
    * selenium 스크린샷 생성
    * @param screenshot_config selenium 스크린샷 conf 객체
+   * @param MAX_WAIT_TIME     Number 각 이벤트마다 최대 기다리는 시간
    */
-	createScreenshot(screenshot_config){
+
+	createScreenshot(screenshot_config, MAX_WAIT_TIME){
 		this._webDriver.then(async resolve => {
 			// selenium screenshot action
-			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-			await resolve.sleep(parseInt(screenshot_config.max_wait_time));
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), MAX_WAIT_TIME);
+			await resolve.sleep(parseInt(MAX_WAIT_TIME));
 			await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
 				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
 					// In case of a error throw err.
@@ -68,11 +70,12 @@ class Selenium {
    * selenium 드래그 후 스크린샷 생성
    * @param drag_config         Object selenium 드래그 conf 객체
    * @param screenshot_config   Object selenium 스크린샷 conf 객체
+   * @param MAX_WAIT_TIME       Number 각 이벤트마다 최대 기다리는 시간
    */
-	createDragScreenshot(drag_config, screenshot_config){
+	createDragScreenshot(drag_config, screenshot_config, MAX_WAIT_TIME){
 		this._webDriver.then(async resolve => {
-			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), drag_config.max_wait_time);
-			await resolve.sleep(drag_config.max_wait_time);
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), MAX_WAIT_TIME);
+			await resolve.sleep(MAX_WAIT_TIME);
 
 			// selenium Drag element
 			const targetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_start_target));
@@ -85,8 +88,8 @@ class Selenium {
 			await actions.move({ x: parseInt(startOffset.x), y: parseInt(startOffset.y) }).press().move({ x: parseInt(endOffset.width + endOffset.x), y: parseInt(endOffset.height + endOffset.y) }).release().perform();
 
 			// selenium screenshot action
-			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-			await resolve.sleep(screenshot_config.max_wait_time);
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), MAX_WAIT_TIME);
+			await resolve.sleep(MAX_WAIT_TIME);
 			await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
 				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
 					// In case of a error throw err.
@@ -107,11 +110,12 @@ class Selenium {
    * selenium 드래그 후 팝업의 스크린샷 생성
    * @param drag_config         Object selenium 드래그 conf 객체
    * @param screenshot_config   Object selenium 스크린샷 conf 객체
+   * @param MAX_WAIT_TIME       Number 각 이벤트마다 최대 기다리는 시간
    */
-	createDragPopupScreenshot(drag_config, screenshot_config) {
+	createDragPopupScreenshot(drag_config, screenshot_config, MAX_WAIT_TIME) {
 		this._webDriver.then(async resolve => {
-			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), drag_config.max_wait_time);
-			await resolve.sleep(drag_config.max_wait_time);
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), MAX_WAIT_TIME);
+			await resolve.sleep(MAX_WAIT_TIME);
 
 			// selenium Drag element
 			const targetElement = await resolve.findElement(webdriver.By.css(drag_config.drag_start_target));
@@ -139,9 +143,9 @@ class Selenium {
 			}
 
 			// selenium screenshot action
-			await resolve.sleep(screenshot_config.max_wait_time);
-			await resolve.wait(webdriver.until.elementLocated(webdriver.By.className(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-			await resolve.sleep(screenshot_config.max_wait_time);
+			await resolve.sleep(MAX_WAIT_TIME);
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.className(screenshot_config.wait_target)), MAX_WAIT_TIME);
+			await resolve.sleep(MAX_WAIT_TIME);
 			await resolve.findElement(webdriver.By.className(screenshot_config.screenshot_target_class)).takeScreenshot().then(img => {
 				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
 					// In case of a error throw err.
@@ -163,11 +167,12 @@ class Selenium {
    * selenium 클릭 후 스크린샷 생성
    * @param click_target        String 클릭할 타겟 ("#id, .class" 형식)
    * @param screenshot_config   Object selenium 스크린샷 conf
+   * @param MAX_WAIT_TIME       Number 각 이벤트마다 최대 기다리는 시간
    */
-	createClickScreenshot(click_target, screenshot_config){
+	createClickScreenshot(click_target, screenshot_config, MAX_WAIT_TIME){
 		this._webDriver.then(async resolve => {
-			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-			await resolve.sleep(screenshot_config.max_wait_time);
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), MAX_WAIT_TIME);
+			await resolve.sleep(MAX_WAIT_TIME);
 
 			// selenium click element
 			const targetElement = await resolve.findElement(webdriver.By.css(click_target));
@@ -177,8 +182,8 @@ class Selenium {
 			await actions.move({ origin: targetElement }).press().pause(1).release().perform();
 
 			// selenium screenshot action
-			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), screenshot_config.max_wait_time);
-			await resolve.sleep(screenshot_config.max_wait_time);
+			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), MAX_WAIT_TIME);
+			await resolve.sleep(MAX_WAIT_TIME);
 			await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
 				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
 					// In case of a error throw err.
@@ -213,16 +218,16 @@ const target_url = "http://ote-mpm.imqa.io/mpm/32/management/reference";
 // screenshot 더미
 const screenshot_config = {
 	wait_target: ".setting-body", // 기다려야하는 target(#element : 아이디, .element: 클래스)
-	max_wait_time: 5000, // 기다리는 텀(각 이벤트 구간마다 들어감)
 	screenshot_target: ".setting-body", // 스크린샷할 타겟
 	screenshot_image_name: "write_test_file" // 스크린샷 이미지 명(png)로 현재는 고정
 };
 
+const MAX_WAIT_TIME = 5000;
+
 const drag_config = {
 	wait_target: ".histogram", // 기다려야하는 target(#element : 아이디, .element: 클래스)
 	drag_start_target: ".histogram", // 드래그 시작할 타켓 (#element : 아이디, .element: 클래스) - 해당 target x,y 값을 구함
-	drag_end_target: ".histogram", // 드래그 마지막 타켓 (#element : 아이디, .element: 클래스) - 해당 target x,y 값을 구함
-	max_wait_time: 5000  // 기다리는 텀(각 이벤트 구간마다 들어감)
+	drag_end_target: ".histogram" // 드래그 마지막 타켓 (#element : 아이디, .element: 클래스) - 해당 target x,y 값을 구함
 };
 
 const selenium = new Selenium(driver, driver_config);
