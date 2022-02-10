@@ -47,7 +47,11 @@ class Login {
    * @param token  String 토큰
    */
   insertLogin(arg){
-    return this.dao.run(`INSERT INTO login VALUES('${arg.id}', '${arg.token}', datetime('now'))`, (err,arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run(`INSERT INTO login(id, token, last_login) VALUES('${arg.id}', '${arg.token}', datetime('now'))`, function(err,res){
+        resolve(this.lastID)
+      });
+    })
   }
 
   /**
@@ -55,7 +59,11 @@ class Login {
    * @param id  String 라이브 서버 사용자 ID
    */
   updateLogin(arg){
-    return this.dao.run(`UPDATE login SET last_login=datetime('now') WHERE id='${arg.id}'`, (err,arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run(`UPDATE login SET last_login=datetime('now') WHERE id='${arg.id}'`, function(err,res){
+        resolve(this.changes)
+      });
+    })
   }
 }
 

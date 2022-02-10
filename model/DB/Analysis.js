@@ -46,7 +46,11 @@ class Analysis {
    * @param message String  대화 내용
    */
   insertAnalysis(arg){
-    return this.dao.run(`INSERT INTO analysis VALUES('${arg.analysis_type}', '${arg.project_id}', datetime('now'), datetime('now'), '${arg.message}')`,[], (err,arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run(`INSERT INTO analysis(analysis_type, project_id, reg_date, last_update, message) VALUES('${arg.analysis_type}', '${arg.project_id}', datetime('now'), datetime('now'), '${arg.message}')`, function(err,res){
+        resolve(this.lastID)
+      });
+    })
   }
 
   /**
@@ -55,7 +59,11 @@ class Analysis {
    * @param project_id  Number  컨설팅 ID
    */
   updateAnalysis(arg){
-    return this.dao.run(`UPDATE analysis SET last_update=datetime('now') WHERE project_id = '${arg.project_id}' AND analysis_type = '${arg.analysis_type}'`, (err,arg)=>{});
+    return new Promise((resolve, reject) => {
+      this.dao.run(`UPDATE analysis SET last_update=datetime('now') WHERE project_id = '${arg.project_id}' AND analysis_type = '${arg.analysis_type}'`, function(err,res){
+        resolve(this.changes)
+      });
+    })
   }
 }
 

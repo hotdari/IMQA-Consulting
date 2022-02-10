@@ -130,10 +130,10 @@ export class ProjectActionView extends CommonActionView {
 
         let dao = new ProjectDao();
         dao.insertProject({app_id:'123', project_name:'123', message : 'sbdfkj'})
-        //   .then(()=>{
-        //   debugger
-        //   console.log("success")
-        // }) ;
+          .then(res=>{
+            // debugger
+            // console.log("success")
+        }) ;
 
         return this.nextActionObj;
       }),
