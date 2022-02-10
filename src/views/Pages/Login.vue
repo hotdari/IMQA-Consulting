@@ -30,7 +30,7 @@
 
                   <b-form-checkbox v-model="model.rememberMe">아이디 저장</b-form-checkbox>
                   <div class="text-center">
-                    <base-button type="primary" native-type="submit" class="my-4">Sign In</base-button>
+                    <base-button type="primary" native-type="submit" class="my-4 loginBtn">Sign In</base-button>
                   </div>
                 </b-form>
               </validation-observer>
@@ -50,6 +50,10 @@
   </div>
 </template>
 <script>
+import login from "@/api/Login";
+
+import { ipcRenderer } from "electron";
+import selenium from "../../../model/Selenium";
 export default {
 	data() {
 		return {
@@ -62,7 +66,21 @@ export default {
 	},
 	methods: {
 		onSubmit() {
-			this.$router.push({ path: "/workspace" });
+			ipcRenderer.send("loginBtn", { id: this.model.email, password: this.model.password });
+
+			ipcRenderer.on("loginBtn-reply", (event, arg) => {
+				if(arg.massage === "error") {
+					alert("계정정보가 없습니다.\n다시 입력해주세요.");
+					return;
+				}
+
+				selenium.setDriverConfig("server_url", "http://ote-mpm.imqa.io");
+				selenium.setDriverConfig("cookie", arg);
+
+				this.$router.push({ path: "/workspace" });
+			});
+			// login.connect();
+
 		}
 	}
 };

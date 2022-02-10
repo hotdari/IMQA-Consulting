@@ -16,10 +16,22 @@ class Selenium {
    * @param driver          the webdriver(크롬)
    * @param driver_config   Object webdriver server_url, login cookie(object)
    */
-	constructor(driver, driver_config) {
+	constructor(driver) {
 		this._driver = driver;
-		this._driver_config = driver_config;
+		this._driver_config = {
+			server_url: null,
+			cookie: null
+		};
 		this._webDriver = null;
+	}
+
+	/**
+   * DriverConfig 추가 하는 역할
+   * @param key      String config 키
+   * @param value    String config 값
+   */
+	setDriverConfig(key, value){
+		this._driver_config[key] = value;
 	}
 
 	/**
@@ -31,6 +43,7 @@ class Selenium {
 	connect(target_url, driver_config = this._driver_config){
 		 this._webDriver = this._driver.then(resolve => resolve.build())
 			.then(async resolve => {
+				console.log("driver_config::::", driver_config);
 				await resolve.get(driver_config.server_url);
 				await resolve.manage().addCookie(driver_config.cookie);
 				await resolve.get(target_url);
@@ -200,17 +213,17 @@ class Selenium {
 }
 
 // driver_config 더미
-const driver_config = {
-	server_url: "http://ote-mpm.imqa.io",
-	service: "mpm",
-	cookie: {
-		name: "IMQA_OTE_SESSION",
-		value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ4MjEzOTAsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYWRtaW5AaW1xYS5pbyIsImVtYWlsIjoiYWRtaW5AaW1xYS5pbyIsIm5pY2tuYW1lIjoi6rSA66as7J6QIiwiaXNfc3VwZXJ1c2VyIjoxLCJ1c2VyX3R6Ijo5LCJpYXQiOjE2NDQyMTY1OTAsImlzcyI6Im1wbS5pbXFhLmlvIiwic3ViIjoibXBtIn0.6hrvoP7lk43IGgpUH1yjP5WJ8NFMOK4LcB0p9smYhKU",
-		domain: ".imqa.io",
-		path: "/",
-		secure: false
-	}
-};
+// const driver_config = {
+// 	server_url: "http://ote-mpm.imqa.io",
+// 	service: "mpm",
+// 	cookie: {
+// 		name: "IMQA_OTE_SESSION",
+// 		value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ4MjEzOTAsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYWRtaW5AaW1xYS5pbyIsImVtYWlsIjoiYWRtaW5AaW1xYS5pbyIsIm5pY2tuYW1lIjoi6rSA66as7J6QIiwiaXNfc3VwZXJ1c2VyIjoxLCJ1c2VyX3R6Ijo5LCJpYXQiOjE2NDQyMTY1OTAsImlzcyI6Im1wbS5pbXFhLmlvIiwic3ViIjoibXBtIn0.6hrvoP7lk43IGgpUH1yjP5WJ8NFMOK4LcB0p9smYhKU",
+// 		domain: ".imqa.io",
+// 		path: "/",
+// 		secure: false
+// 	}
+// };
 
 // 셀레니움 접근할 페이지 url
 const target_url = "http://ote-mpm.imqa.io/mpm/32/management/reference";
@@ -230,5 +243,5 @@ const drag_config = {
 	drag_end_target: ".histogram" // 드래그 마지막 타켓 (#element : 아이디, .element: 클래스) - 해당 target x,y 값을 구함
 };
 
-const selenium = new Selenium(driver, driver_config);
+const selenium = new Selenium(driver);
 export default selenium;

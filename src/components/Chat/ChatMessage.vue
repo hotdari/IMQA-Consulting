@@ -46,7 +46,7 @@ export default {
 				drag_end_target: ".histogram",
 				max_wait_time: 5000
 			};
-      
+
 			selenium.connect(target_url).createDragScreenshot(drag_config, screenshot_config, 5000);
 		}
 	}
