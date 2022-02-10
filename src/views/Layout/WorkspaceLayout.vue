@@ -94,6 +94,7 @@ function initScrollbar(className) {
 
 import DashboardNavbar from "./DashboardNavbar.vue";
 import DashboardContent from "./Content.vue";
+import {ProjectActionView} from "../../layer/project/ProjectActionView";
 
 export default {
 	components: {
@@ -185,6 +186,9 @@ export default {
 			target.classList.toggle("active");
 		},
 		addProject(id) {
+
+
+
 			console.log("프로젝트 추가", id);
 		},
 		addConsulting(id){
