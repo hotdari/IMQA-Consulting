@@ -1,10 +1,13 @@
-const CommonActionView = require("../common/CommonActionView");
-const ActionViewUtil = require("../common/ActionViewUtil");
+// const CommonActionView = require("../common/CommonActionView");
+// const ActionViewUtil = require("../common/ActionViewUtil");
+
+import {CommonActionView} from "../common/CommonActionView"
+import {ActionViewUtil} from "../common/ActionViewUtil"
 
 /**
  *
  */
-module.exports = class ProjectActionView extends CommonActionView {
+export class ProjectActionView extends CommonActionView {
   actionView = CommonActionView;
   _myActionView = null;
   childAction = null;

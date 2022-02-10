@@ -1,7 +1,7 @@
 /**
  *
  */
-module.exports = class CommonActionView {
+export class CommonActionView {
 
   nextActionObj = null;
 

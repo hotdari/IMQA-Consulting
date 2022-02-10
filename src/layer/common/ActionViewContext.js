@@ -1,5 +1,5 @@
 
-module.exports = class ActionViewContext {
+export class ActionViewContext {
 
     static _single;
 
