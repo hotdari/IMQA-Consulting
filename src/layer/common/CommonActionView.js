@@ -14,7 +14,7 @@ export class CommonActionView {
 
   static innerAction(fn) {
     let result = new CommonActionView();
-    CommonActionView.doAction = fn;
+    result.doAction = fn;
     return result;
   }
 
@@ -26,12 +26,10 @@ export class CommonActionView {
 
   doAction(){}
 
-  nextAction(){}
-
-  setNextAction(){
-    this.nextActionObj = nextAction;
-    return this;
+  nextAction(){
+    return this.nextAction();
   }
+
 
   setPrintAction(param) {
     //todo
@@ -40,6 +38,9 @@ export class CommonActionView {
   set childAction(childAction) {this._childAction = childAction }
   get childAction() {return this._childAction}
 
+  setContext(context) {
+    this.context = context;
+  }
 
 
 }

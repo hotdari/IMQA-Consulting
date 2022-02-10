@@ -1,6 +1,10 @@
-const ProjectActionView = require("../../../src/layer/project/ProjectActionView");
-const ActionViewContext = require("../../../src/layer/common/ActionViewContext");
-const ActionViewUtil = require("../../../src/layer/common/ActionViewUtil");
+// const ProjectActionView = require("../../../src/layer/project/ProjectActionView");
+// const ActionViewContext = require("../../../src/layer/common/ActionViewContext");
+// const ActionViewUtil = require("../../../src/layer/common/ActionViewUtil");
+
+import {ProjectActionView} from "@/layer/project/ProjectActionView"
+import {ActionViewContext} from "@/layer/common/ActionViewContext"
+import {ActionViewUtil} from "@/layer/common/ActionViewUtil"
 
 test('getTransactionId ', () => {
   console.log(ActionViewUtil.getTxId())

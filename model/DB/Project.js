@@ -4,9 +4,11 @@
 
 import db from "../../db/db";
 
-class Project {
-  constructor(dao) {
-    this.dao = dao;
+export class ProjectDao {
+  constructor() {
+    debugger
+    this.dao = db;
+    this.createTable()
   }
 
   /**
@@ -59,6 +61,7 @@ class Project {
    * @param message String  대화 내용
    */
   insertProject(arg){
+    debugger
     return this.dao.run('INSERT INTO project VALUES(${arg.app_id}, ${arg.project_name}, datetime(now), datetime(now), ${arg.message})',[], (err,arg)=>{});
   }
 
@@ -74,5 +77,5 @@ class Project {
 }
 
 
-const project = new Project(db);
-export default project;
+// const project = new Project(db);
+// export default project;
