@@ -10,7 +10,7 @@
       </div>
       <div v-html="body" class="message_txt">
       </div>
-      <div v-html="action" class="action_info" ref="action">
+      <div v-html="action" class="action_info" ref="action" @click="test()">
       </div>
     </div>
   </div>
@@ -18,7 +18,7 @@
 
 <script>
 import selenium from "../../../model/Selenium";
-import { ActionViewContext } from "@/layer/common/ActionViewContext";
+import {ActionViewContext} from "@/layer/common/ActionViewContext";
 
 
 export default {
@@ -29,11 +29,16 @@ export default {
 		action: String
 	},
 	mounted() {
-		this.$refs.action.addEventListener("click", function (event) {
+		this.$refs.action.addEventListener("click", async function (event) {
 
-			console.log("clicked: ", event.target.dataset);
-			const context = ActionViewContext.getInstance();
-			context.getBean(event.target.dataset.txid).doAction(context, event.target.dataset.txid);
+		  if(event.target.dataset.event === 'startConsulting') {
+		    //powerpoint download
+      } else {
+        console.log("clicked: ", event.target.dataset);
+        let context = ActionViewContext.getInstance();
+        context.getBean(event.target.dataset.txid).doAction(context, event.target.dataset.txid);
+      }
+
 
 		});
 	},
