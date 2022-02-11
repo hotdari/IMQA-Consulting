@@ -33,7 +33,7 @@ export class ReportDao {
    */
   selectReport(arg){
     return new Promise((resolve, reject) => {
-      this.dao.get(`SELECT * FROM report WHERE project_id = '${arg.project_id}'`, (err, rows) => {
+      this.dao.get(`SELECT * FROM report WHERE report_id = '${arg.report_id}'`, (err, rows) => {
         console.log(rows);
         if(err){return reject(err);}
         resolve(rows);

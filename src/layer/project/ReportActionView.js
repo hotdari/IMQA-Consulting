@@ -4,6 +4,7 @@
 import { CommonActionView } from "../common/CommonActionView";
 import { ActionViewUtil } from "../common/ActionViewUtil";
 import { ActionViewContext } from "@/layer/common/ActionViewContext";
+import sample from "@/../db/dbReportSample";
 import { ReportDao } from "@/../model/DB/Report";
 import { Ppt } from "@/../model/Ppt";
 import { ConfigDao } from "@/../model/DB/Config";
@@ -55,8 +56,11 @@ export class ReportActionView extends CommonActionView {
   	const vm = this;
   	const makeProjectChildAction = [
   		this.actionView.innerAction(function (context, txId) {
-  			console.log("컨설팅 완료 -> 레포팅 시작 메시지 :: ", context);
+  			const dao = new ReportDao();
+  			const ppt = new Ppt(setup);
+
   			// 레포팅 시작
+  			console.log("컨설팅 완료 -> 레포팅 시작 메시지 :: ", context);
 
   			//화면 input 출력
   			context.getVue().$emit("message",
@@ -66,19 +70,26 @@ export class ReportActionView extends CommonActionView {
   					body: "<p>모든 컨설팅이 완료되었습니다. 레포팅을 진행합니다.</p>"
   				});
 
-  			const dao = new ReportDao();
-  			const ppt = new Ppt(setup);
-  			dao.selectReport({ project_id: 32 }).then(result => {
-  				ppt.convertPptx(result).then(r => {
-  					context.getVue().$emit("message",
-  						{
-  							user: "IMQA Bot",
-  							time: "오후 1:11",
-  							body: "<p>레포팅 파일 생성이 완료되었습니다. 확인해주세요.</p>",
-  							action: "<div class='mt-3'><button data-event='downloadReport' data-txId='" + txId + "' class='btn btn-primary btn-sm'>DownLoad</button></div>"
-  						});
+  			// report table에 저장
+  			dao.insertReport({
+  				project_id: 32,
+  				title: "아리따움 1.0v",
+  				desc: "설명문",
+  				content: sample
+  			}).then(result => {
+  				dao.selectReport({ report_id: result }).then(result => {
+  					ppt.convertPptx(result).then(r => {
+  						context.getVue().$emit("message",
+  							{
+  								user: "IMQA Bot",
+  								time: "오후 1:11",
+  								body: "<p>레포팅 파일 생성이 완료되었습니다. 확인해주세요.</p>",
+  								action: "<div class='mt-3'><button data-event='downloadReport' data-txId='" + txId + "' class='btn btn-primary btn-sm'>DownLoad</button></div>"
+  							});
+  					});
   				});
   			});
+
   			return ppt;
   		})
   	];
