@@ -60,7 +60,7 @@ export class ReportActionView extends CommonActionView {
 
   			const dao = new ReportDao();
   			const ppt = new Ppt();
-  			dao.selectReport({ project_id: 1 }).then(result => {
+  			dao.selectReport({ project_id: 32 }).then(result => {
   				ppt.convertPptx(result).then(r => {
   					context.getVue().$emit("message",
   						{

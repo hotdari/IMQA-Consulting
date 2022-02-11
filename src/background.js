@@ -7,6 +7,7 @@ import { exec } from "child_process";
 import { directory } from "../model/Electron/Diretory";
 import { login } from "../model/Electron/Login";
 import { projectList } from "../model/Electron/ProjectList";
+import analysis from "../model/DB/Analysis";
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -69,6 +70,7 @@ app.on("ready", async () => {
 	if (isDevelopment && !process.env.IS_TEST) {
 		// Install Vue Devtools
 		try {
+			analysis.createTable();
 			await installExtension(VUEJS_DEVTOOLS);
 		} catch (e) {
 			console.error("Vue Devtools failed to install:", e.toString());
