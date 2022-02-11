@@ -18,7 +18,8 @@
 
 <script>
 import selenium from "../../../model/Selenium";
-import {ActionViewContext} from "@/layer/common/ActionViewContext";
+import { ActionViewContext } from "@/layer/common/ActionViewContext";
+
 
 export default {
 	props: {
@@ -28,39 +29,19 @@ export default {
 		action: String
 	},
 	mounted() {
-		this.$refs.action.addEventListener("click", async function (event) {
-		  if(event.target.dataset.event === 'downloadReport') {
-		    //powerpoint download
-        let context = ActionViewContext.getInstance();
-        context.getBean(event.target.dataset.txid)._myActionView.savePpt()
-      } else {
-        console.log("clicked: ", event.target.dataset);
-        let context = ActionViewContext.getInstance();
-        context.getBean(event.target.dataset.txid).doAction(context, event.target.dataset.txid);
-      }
-
-
+		this.$refs.action.addEventListener("click", function (event) {
+			if(event.target.dataset.event === "downloadReport") {
+				//powerpoint download
+				const context = ActionViewContext.getInstance();
+				context.getBean(event.target.dataset.txid)._myActionView.savePpt();
+			} else {
+				console.log("clicked: ", event.target.dataset);
+				const context = ActionViewContext.getInstance();
+				context.getBean(event.target.dataset.txid).doAction(context, event.target.dataset.txid);
+			}
 		});
 	},
 	methods: {
-		test: function () {
-			const target_url = "http://ote-mpm.imqa.io/mpm/32/statistics";
-			const screenshot_config = {
-				wait_target: ".histogram",
-				max_wait_time: 2000,
-				screenshot_target: ".histogram",
-				screenshot_image_name: "histogram1122_22"
-			};
-
-			const drag_config = {
-				wait_target: ".histogram",
-				drag_start_target: ".histogram",
-				drag_end_target: ".histogram",
-				max_wait_time: 5000
-			};
-
-			selenium.connect(target_url).createDragScreenshot(drag_config, screenshot_config, 5000);
-		}
 	}
 };
 </script>

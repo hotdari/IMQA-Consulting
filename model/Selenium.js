@@ -57,9 +57,8 @@ class Selenium {
    * @param screenshot_config selenium 스크린샷 conf 객체
    * @param MAX_WAIT_TIME     Number 각 이벤트마다 최대 기다리는 시간
    */
-
 	createScreenshot(screenshot_config, MAX_WAIT_TIME){
-		this._webDriver.then(async resolve => {
+		return this._webDriver.then(async resolve => {
 			// selenium screenshot action
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), MAX_WAIT_TIME);
 			await resolve.sleep(parseInt(MAX_WAIT_TIME));
@@ -86,7 +85,7 @@ class Selenium {
    * @param MAX_WAIT_TIME       Number 각 이벤트마다 최대 기다리는 시간
    */
 	createDragScreenshot(drag_config, screenshot_config, MAX_WAIT_TIME){
-		this._webDriver.then(async resolve => {
+		return this._webDriver.then(async resolve => {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), MAX_WAIT_TIME);
 			await resolve.sleep(MAX_WAIT_TIME);
 
@@ -126,7 +125,7 @@ class Selenium {
    * @param MAX_WAIT_TIME       Number 각 이벤트마다 최대 기다리는 시간
    */
 	createDragPopupScreenshot(drag_config, screenshot_config, MAX_WAIT_TIME) {
-		this._webDriver.then(async resolve => {
+		return this._webDriver.then(async resolve => {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(drag_config.wait_target)), MAX_WAIT_TIME);
 			await resolve.sleep(MAX_WAIT_TIME);
 
@@ -183,7 +182,7 @@ class Selenium {
    * @param MAX_WAIT_TIME       Number 각 이벤트마다 최대 기다리는 시간
    */
 	createClickScreenshot(click_target, screenshot_config, MAX_WAIT_TIME){
-		this._webDriver.then(async resolve => {
+		return this._webDriver.then(async resolve => {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), MAX_WAIT_TIME);
 			await resolve.sleep(MAX_WAIT_TIME);
 
@@ -211,37 +210,6 @@ class Selenium {
 		});
 	}
 }
-
-// driver_config 더미
-// const driver_config = {
-// 	server_url: "http://ote-mpm.imqa.io",
-// 	service: "mpm",
-// 	cookie: {
-// 		name: "IMQA_OTE_SESSION",
-// 		value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ4MjEzOTAsInVzZXJfaWQiOjEsInVzZXJuYW1lIjoiYWRtaW5AaW1xYS5pbyIsImVtYWlsIjoiYWRtaW5AaW1xYS5pbyIsIm5pY2tuYW1lIjoi6rSA66as7J6QIiwiaXNfc3VwZXJ1c2VyIjoxLCJ1c2VyX3R6Ijo5LCJpYXQiOjE2NDQyMTY1OTAsImlzcyI6Im1wbS5pbXFhLmlvIiwic3ViIjoibXBtIn0.6hrvoP7lk43IGgpUH1yjP5WJ8NFMOK4LcB0p9smYhKU",
-// 		domain: ".imqa.io",
-// 		path: "/",
-// 		secure: false
-// 	}
-// };
-
-// 셀레니움 접근할 페이지 url
-const target_url = "http://ote-mpm.imqa.io/mpm/32/management/reference";
-
-// screenshot 더미
-const screenshot_config = {
-	wait_target: ".setting-body", // 기다려야하는 target(#element : 아이디, .element: 클래스)
-	screenshot_target: ".setting-body", // 스크린샷할 타겟
-	screenshot_image_name: "write_test_file" // 스크린샷 이미지 명(png)로 현재는 고정
-};
-
-const MAX_WAIT_TIME = 5000;
-
-const drag_config = {
-	wait_target: ".histogram", // 기다려야하는 target(#element : 아이디, .element: 클래스)
-	drag_start_target: ".histogram", // 드래그 시작할 타켓 (#element : 아이디, .element: 클래스) - 해당 target x,y 값을 구함
-	drag_end_target: ".histogram" // 드래그 마지막 타켓 (#element : 아이디, .element: 클래스) - 해당 target x,y 값을 구함
-};
 
 const selenium = new Selenium(driver);
 export default selenium;

@@ -20,7 +20,7 @@
 import ChatMessage from "@/components/Chat/ChatMessage";
 import ChatEditor from "@/components/Chat/ChatEditor";
 import chatJson from "@/chat.json";
-import {ActionViewContext} from "@/layer/common/ActionViewContext";
+import { ActionViewContext } from "@/layer/common/ActionViewContext";
 
 export default {
 	name: "Workspace",
@@ -40,15 +40,15 @@ export default {
 		// }
 	},
 	mounted() {
-	  let vm = this
+	  const vm = this;
 		this.scrollToElement();
 		this.getChatMessages();
 
-    let context = ActionViewContext.getInstance();
-    context.getVue().$on('message', function(text) {
-      console.log(text);
-      vm.messages.push(text)
-    });
+		const context = ActionViewContext.getInstance();
+		context.getVue().$on("message", function (text) {
+			console.log(text);
+			vm.messages.push(text);
+		});
 	},
 	updated() {
 		this.scrollToElement();
