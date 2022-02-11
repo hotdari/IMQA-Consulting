@@ -39,7 +39,7 @@ test('Project New Instance 테스트 ', () => {
 
   ProjectActionView.newInstance().makeProject()
       .nextAction(AnaysisActionView.newInstance().projectAnaysis())
-      //.nextAction(ReportActionView.newInstance().makePPT())
+      .nextAction(ReportActionView.newInstance().makePPT())
 
 
   context.getBean(myTxId).doAction(); //프로젝트 명 만들기

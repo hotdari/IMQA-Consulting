@@ -94,11 +94,11 @@ function initScrollbar(className) {
 
 import DashboardNavbar from "./DashboardNavbar.vue";
 import DashboardContent from "./Content.vue";
-import {ProjectActionView} from "../../layer/project/ProjectActionView";
-import {ActionViewContext} from "@/layer/common/ActionViewContext";
-import {ActionViewUtil} from "@/layer/common/ActionViewUtil";
-import {AnalysisActionView} from "@/layer/project/AnaysisActionView";
-import {ReportActionView} from "@/layer/project/ReportActionView";
+import { ProjectActionView } from "../../layer/project/ProjectActionView";
+import { ActionViewContext } from "@/layer/common/ActionViewContext";
+import { ActionViewUtil } from "@/layer/common/ActionViewUtil";
+import { AnalysisActionView } from "@/layer/project/AnaysisActionView";
+import { ReportActionView } from "@/layer/project/ReportActionView";
 
 export default {
 	components: {
@@ -192,19 +192,21 @@ export default {
 		addProject(id) {
 			console.log("프로젝트 추가", id);
 
-      let context = ActionViewContext.getInstance();
-      let myTxId = ActionViewUtil.getTxId();
+			const context = ActionViewContext.getInstance();
+			const myTxId = ActionViewUtil.getTxId();
 
-      // context.setVue(new Vue())
-      let projectActionView = ProjectActionView.newInstance().makeProject();
-      context.setBean(myTxId, projectActionView);
-      let analysisActionView = AnalysisActionView.newInstance().analysisPreview();
-      projectActionView.setNextAction(analysisActionView);
-      let reportActionView = ReportActionView.newInstance().makeReport();
-      projectActionView.setNextAction(reportActionView);
+			// context.setVue(new Vue())
+			const projectActionView = ProjectActionView.newInstance().makeProject();
+			context.setBean(myTxId, projectActionView);
+
+			const analysisActionView = AnalysisActionView.newInstance().analysisPreview();
+			projectActionView.setNextAction(analysisActionView);
+
+			const reportActionView = ReportActionView.newInstance().makeReport();
+			analysisActionView.setNextAction(reportActionView);
 
 
-      projectActionView.doAction(context, myTxId);
+			projectActionView.doAction(context, myTxId);
 
 
 		},

@@ -28,7 +28,10 @@ export class AnalysisActionView extends CommonActionView {
   	this._myActionView = this._myActionView.doAction(context, txId);
   }
 
-  nextAction(){}
+  nextAction(context, txId){
+  	context.setBean(txId, this.nextActionObj);
+  	this.nextActionObj.doAction(context, txId);
+  }
 
   setNextAction(obj){
   	this.nextActionObj = obj;
@@ -177,10 +180,7 @@ export class AnalysisActionView extends CommonActionView {
   					body: "<p>네이티브 화면로딩시간 데이터 분석이 완료되었습니다.</p>",
   					action: "<div class='mt-1'><button data-event='nativeLoading1' data-txId='" + txId + "' class='btn btn-primary btn-sm'>[네이티브 화면로딩 시간] 2022-01-11 00:00 ~ 2022-01-11 23:59</button></div>" +
             "<div class='mt-1'><button data-event='nativeLoading2' data-txId='" + txId + "' class='btn btn-primary btn-sm'>[네이티브 화면로딩 시간] 2022-01-12 00:00 ~ 2022-01-12 23:59</button></div>"
-
   				});
-
-  			return this.nextActionObj;
   		})
 
   	];

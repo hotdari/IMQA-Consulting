@@ -58,8 +58,8 @@ export default {
 	data() {
 		return {
 			model: {
-				email: "",
-				password: "",
+				email: "admin@imqa.io",
+				password: "djslzja0080",
 				rememberMe: false
 			}
 		};
