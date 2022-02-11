@@ -2,10 +2,8 @@
  * PPT 생성
  */
 
-// import test from "../db";
 import pptxgen from "pptxgenjs";
 const html2pptxgenjs = require('html2pptxgenjs');
-import report from "./DB/Report.js";
 
 // // 1. Create a new Presentation
 // let pptx = new pptxgen();
@@ -37,17 +35,17 @@ let defaultTextStyle = {
   bold: false,
   italic: false,
   underline: false,
-  // strike: "",
+  // strike: 'none',
 }
 
-class Ppt {
+export class Ppt {
   constructor() {
     this.pptx = new pptxgen();
   }
 
   savePpt(){
     // 4. Save the Presentation
-    this.pptx.writeFile();
+    this.pptx.writeFile(this.title);
   }
 
   addSlide(){
@@ -136,26 +134,14 @@ class Ppt {
     return html2pptxgenjs.htmlToPptxText(text, {...option});
   }
 
-  convertPptx(payload){
-    //payload = content.slide
-    this.slideCover(payload[0]);
-    this.slideSummary(payload[1]);
+  async convertPptx(payload){
+    let content = JSON.parse(payload.content).slide;
+    this.title = payload.title;
 
-    for(let i = 2; i < payload.length; i++){
-      this.slideContent(payload[i]);
+    await this.slideCover(content[0]);
+    await this.slideSummary(content[1]);
+    for(let i = 2; i < content.length; i++){
+      await this.slideContent(content[i]);
     }
   }
-
-  // createPptx(payload){
-  //   // test.insert();
-  //
-  //   report.selectReport(payload).then(data => {
-  //     content = JSON.parse(data.content);
-  //     this.convertPptx(content.slide);
-  //     this.savePpt();
-  //   });
-  // }
 }
-
-const ppt = new Ppt();
-export default ppt;
