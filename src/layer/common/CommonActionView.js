@@ -13,33 +13,33 @@ export class CommonActionView {
   }
 
   static innerAction(fn) {
-    let result = new CommonActionView();
-    result.doAction = fn;
-    return result;
+  	const result = new CommonActionView();
+  	result.doAction = fn;
+  	return result;
   }
 
 
   setNextAction(nextAction) {
-    this.nextActionObj = nextAction;
-    return this;
+  	this.nextActionObj = nextAction;
+  	return this;
   }
 
   doAction(){}
 
   nextAction(){
-    return this.nextAction();
+  	return this.nextAction();
   }
 
 
   setPrintAction(param) {
-    //todo
+  	//todo
   }
 
-  set childAction(childAction) {this._childAction = childAction }
-  get childAction() {return this._childAction}
+  set childAction(childAction) {this._childAction = childAction; }
+  get childAction() {return this._childAction;}
 
   setContext(context) {
-    this.context = context;
+  	this.context = context;
   }
 
 

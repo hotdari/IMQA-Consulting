@@ -6,6 +6,14 @@ import { ActionViewUtil } from "../common/ActionViewUtil";
 import { ActionViewContext } from "@/layer/common/ActionViewContext";
 import { ReportDao } from "@/../model/DB/Report";
 import { Ppt } from "@/../model/Ppt";
+import { ConfigDao } from "@/../model/DB/Config";
+
+let setup;
+const config = new ConfigDao();
+config.selectConfig().then(res => {
+	if(res === undefined) {return;}
+	setup = res;
+});
 
 /**
  *
@@ -59,7 +67,7 @@ export class ReportActionView extends CommonActionView {
   				});
 
   			const dao = new ReportDao();
-  			const ppt = new Ppt();
+  			const ppt = new Ppt(setup);
   			dao.selectReport({ project_id: 32 }).then(result => {
   				ppt.convertPptx(result).then(r => {
   					context.getVue().$emit("message",

@@ -6,7 +6,7 @@ const sample = require("../../db/dbReportSample.js");
 import db from "../../db/db";
 
 export class ReportDao {
-  constructor(dao) {
+  constructor() {
     this.dao = db;
     this.title = "";
     this.createTable();

@@ -19,6 +19,7 @@ class Selenium {
 	constructor(driver) {
 		this._driver = driver;
 		this._driver_config = {
+			workspace: null,
 			server_url: null,
 			cookie: null
 		};
@@ -43,7 +44,7 @@ class Selenium {
 	connect(target_url, driver_config = this._driver_config){
 		 this._webDriver = this._driver.then(resolve => resolve.build())
 			.then(async resolve => {
-				console.log("driver_config::::", driver_config);
+				console.log("driver_config::::", target_url, driver_config);
 				await resolve.get(driver_config.server_url);
 				await resolve.manage().addCookie(driver_config.cookie);
 				await resolve.get(target_url);
@@ -63,7 +64,7 @@ class Selenium {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), MAX_WAIT_TIME);
 			await resolve.sleep(parseInt(MAX_WAIT_TIME));
 			await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
-				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
+				fs.writeFile(`file:${this._driver_config.workspace}/${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
 					// In case of a error throw err.
 					if (err) {throw err;}
 				});
@@ -103,7 +104,7 @@ class Selenium {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), MAX_WAIT_TIME);
 			await resolve.sleep(MAX_WAIT_TIME);
 			await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
-				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
+				fs.writeFile(`file:${this._driver_config.workspace}/${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
 					// In case of a error throw err.
 					if (err) {throw err;}
 				});
@@ -159,7 +160,7 @@ class Selenium {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.className(screenshot_config.wait_target)), MAX_WAIT_TIME);
 			await resolve.sleep(MAX_WAIT_TIME);
 			await resolve.findElement(webdriver.By.className(screenshot_config.screenshot_target_class)).takeScreenshot().then(img => {
-				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
+				fs.writeFile(`file:${this._driver_config.workspace}/${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
 					// In case of a error throw err.
 					if (err) {throw err;}
 				});
@@ -197,7 +198,7 @@ class Selenium {
 			await resolve.wait(webdriver.until.elementLocated(webdriver.By.css(screenshot_config.wait_target)), MAX_WAIT_TIME);
 			await resolve.sleep(MAX_WAIT_TIME);
 			await resolve.findElement(webdriver.By.css(screenshot_config.screenshot_target)).takeScreenshot().then(img => {
-				fs.writeFile(`${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
+				fs.writeFile(`file://${this._driver_config.workspace}/${screenshot_config.screenshot_image_name}.png`, img, "base64", err => {
 					// In case of a error throw err.
 					if (err) {throw err;}
 				});
