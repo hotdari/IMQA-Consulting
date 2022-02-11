@@ -44,12 +44,17 @@
 </template>
 <script>
 import { ipcRenderer } from "electron";
-// import ppt from "../../../model/Ppt";
+import { ConfigDao } from "@/../model/DB/Config";
 
 export default {
 	name: "setup",
 	data() {
 		return {
+			config: new ConfigDao(),
+			init_model: {
+				directory: "",
+				server_url: ""
+			},
 			model: {
 				directory: "",
 				server_url: ""
@@ -63,9 +68,32 @@ export default {
 			return !this.model.directory ? "Workspace URL" : this.model.directory;
 		}
 	},
+	created() {
+		this.config.selectConfig().then(res => {
+			if(res === undefined) {return;}
+			this.init_model = {
+				directory: res.workspace,
+				server_url: res.server_url
+			};
+			this.model = {
+				directory: res.workspace,
+				server_url: res.server_url
+			};
+		});
+	},
 	methods: {
 		onSubmit() {
-      // ppt.createPptx(1)
+			const arg = {
+				server_url: this.model.server_url,
+				workspace: this.model.directory
+			};
+			if(this.init_model.server_url === ""){
+				this.config.insertConfig(arg);
+			}else{
+				// server_url은 변하지 않는다고 가정함.(unique)
+				this.config.updateConfig(arg);
+			}
+
 			this.$router.push({ path: "/login" });
 		},
 		getfolder() {

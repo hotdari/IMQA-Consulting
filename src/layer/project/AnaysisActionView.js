@@ -1,7 +1,14 @@
 import { CommonActionView } from "../common/CommonActionView";
 import { ActionViewUtil } from "../common/ActionViewUtil";
 import selenium from "../../../model/Selenium";
-import { ReportDao } from "../../../model/DB/Report";
+import { ConfigDao } from "@/../model/DB/Config";
+const config = new ConfigDao();
+let setup;
+
+config.selectConfig().then(res => {
+	if(res === undefined) {return;}
+	setup = res;
+});
 
 /**
  *
@@ -41,7 +48,6 @@ export class AnalysisActionView extends CommonActionView {
 
   analysisPreview() {
 
-
   	/*
       1. preview
       2. 셋프리
@@ -61,7 +67,7 @@ export class AnalysisActionView extends CommonActionView {
 
 
   			// 셀레니움 프리셋 스크린샷
-  			selenium.connect("http://ote-mpm.imqa.io/mpm/32/management/reference").createScreenshot({
+  			selenium.connect(`${setup.server_url}/${setup.service}/32/management/reference`).createScreenshot({
   				wait_target: ".setting-body",
   				screenshot_target: ".setting-body",
   				screenshot_image_name: "preset_img"
@@ -77,12 +83,12 @@ export class AnalysisActionView extends CommonActionView {
   					user: "Bot",
   					time: "오후 1:12",
   					body: "<p>프리셋은 다음과 같이 구성되어 있습니다</p>" +
-              "<br/><img src='file:/Users/namsang-u/Desktop/workspace/IMQA-Consulting/preset_img.png'>"
+              "<br/><img src='" + `file:${setup.workspace}/preset_img.png` + "'>"
   				});
 
 
   			// 셀레니움 레포트 스크린샷
-  			selenium.connect("http://ote-mpm.imqa.io/mpm/32/report").createClickScreenshot(".version-apply-btn", {
+  			selenium.connect(`${setup.server_url}/${setup.service}/32/report`).createClickScreenshot(".version-apply-btn", {
   				wait_target: "#page1",
   				screenshot_target: "#page1",
   				screenshot_image_name: "report_img"
@@ -98,33 +104,8 @@ export class AnalysisActionView extends CommonActionView {
   					user: "Bot",
   					time: "오후 1:13",
   					body: "<p>레포트 요약은 다음과 같습니다.</p>" +
-              "<br/><img src='file:/Users/namsang-u/Desktop/workspace/IMQA-Consulting/report_img.png'>"
+              "<br/><img src='" + `file:${setup.workspace}/report_img.png` + "'>"
   				});
-
-  			new ReportDao().insertReport({
-  				project_id: 32,
-  				title: "아리따움 1.0v",
-  				desc: "설명문",
-  				content: {
-  					slide: [
-  						{
-  							title: "<p>아리따움 성능 리포트</p>",
-  							desc: "어니컴 성능솔루션 사업부",
-  							logo: "onycom.png",
-  							image: "main.png"
-  						},
-  						{
-  							title: "이슈 요약",
-  							desc: "<p>이슈 요약이 없습니다.</p>",
-  							image: ""
-  						},
-  						{
-  							title: "3.3.0",
-  							desc: "<p>화면 로딩시간 :</p><p><br/></p><p>웹뷰 화면 로딩시간:</p><p>화면에 로딩 지연 시간이 많이 발생함.</p><p>주로 결재나 카트 부분이 느림</p><p>상세한 부분은 뒤에서 언급함.</p><p></p><p>응답시간 : </p><p>대체로 양호한 상황</p><p><br/></p><p>CPU 사용량:</p><p>대부분은 50% 이하로 양호하나 4% 정도는</p><p>CPU 과다 사용구간이 존재함.</p><p><br/></p><p>메모리 사용량:</p><p>100MB 이상 사용하는 구간이 약 4% 존재함.</p>",
-  							image: "report_img.png"
-  						}
-  					] }
-  			});
 
   			return this.nextActionObj.doAction(context, txId);
   		}),

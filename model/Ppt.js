@@ -5,23 +5,6 @@
 import pptxgen from "pptxgenjs";
 const html2pptxgenjs = require("html2pptxgenjs");
 
-// // 1. Create a new Presentation
-// let pptx = new pptxgen();
-//
-// // 2. Add a Slide
-// let slide = pptx.addSlide();
-//
-// // 3. Add one or more objects (Tables, Shapes, Images, Text and Media) to the Slide
-// let textboxText = "Hello World from PptxGenJS!";
-// let textboxOpts = { x: 1, y: 1, color: "363636" };
-// slide.addText(textboxText, textboxOpts);
-//
-// // 4. Save the Presentation
-// pptx.writeFile();
-//------------------------------------------------------------------------------
-const content = {};
-const local_path = "file:///Users/namsang-u/Desktop/workspace/IMQA-Consulting/report_dumy";
-const custom_path = "aritaum_3.3.0";
 const defaultTextStyle = {
 	x: 5,
 	y: 5,
@@ -39,8 +22,10 @@ const defaultTextStyle = {
 };
 
 export class Ppt {
-	constructor() {
+	constructor(config) {
 		this.pptx = new pptxgen();
+    this.local_path = `file://${config.workspace}`;
+    // this.custom_path = "aritaum_3.3.0";
 	}
 
 	savePpt(){
@@ -71,9 +56,9 @@ export class Ppt {
 			y: "80%"
 		});
 		// logo
-		slide.addImage({ x: "3%", y: "5%", w: "12%", h: "3%", path: `${local_path}/${payload.logo}` });
+		slide.addImage({ x: "3%", y: "5%", w: "12%", h: "3%", path: `${this.local_path}/${payload.logo}` });
 		// background
-		slide.addImage({ x: "60%", y: "45%", w: "40%", h: "50%", path: `${local_path}/${payload.image}` });
+		slide.addImage({ x: "60%", y: "45%", w: "40%", h: "50%", path: `${this.local_path}/${payload.image}` });
 	}
 
 	slideSummary(payload) {
@@ -124,7 +109,7 @@ export class Ppt {
 			h: "85%"
 		});
 		// report - image
-		slide.addImage({ x: "40%", y: 0, w: "60%", h: "100%", path: `${local_path}/${custom_path}/${payload.image}` });
+		slide.addImage({ x: "40%", y: 0, w: "60%", h: "100%", path: `${this.local_path}/${payload.image}` });
 	}
 
 	textParse(text, option){

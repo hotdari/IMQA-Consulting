@@ -1,12 +1,12 @@
 /**
  * 상세 컨설팅 내용 (화면로딩시간, 응답시간, 메모리, CPU)
  */
-
 import db from "../../db/db";
 
-class Analysis {
-  constructor(dao) {
-    this.dao = dao;
+export class Analysis {
+  constructor() {
+    this.dao = db;
+    this.createTable();
   }
 
   /**
@@ -66,6 +66,3 @@ class Analysis {
     })
   }
 }
-
-const analysis = new Analysis(db);
-export default analysis;

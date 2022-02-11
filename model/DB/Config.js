@@ -11,9 +11,10 @@
 
 import db from "../../db/db";
 
-class Config {
-	constructor(dao) {
-		this.dao = dao;
+export class ConfigDao {
+	constructor() {
+		this.dao = db;
+    this.createTable();
 	}
 
 	/**
@@ -31,11 +32,11 @@ class Config {
 	/**
    * config 설정 가져오기
    */
-	selectConfig(arg){
+	selectConfig(){
 		return new Promise((resolve, reject) => {
 			this.dao.get("SELECT * FROM config", (err, rows) => {
 				if(err){return reject(err);}
-				resolve(rows.length);
+				resolve(rows);
 			});
 		});
 	}
@@ -66,6 +67,3 @@ class Config {
     })
   }
 }
-
-const config = new Config(db);
-export default config;

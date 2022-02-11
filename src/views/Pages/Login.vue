@@ -53,16 +53,33 @@
 import login from "@/api/Login";
 
 import { ipcRenderer } from "electron";
-import selenium from "../../../model/Selenium";
+import selenium from "@/../model/Selenium";
+import { ConfigDao } from "@/../model/DB/Config";
+
 export default {
 	data() {
 		return {
+			config: new ConfigDao(),
+			config_model: {
+				directory: "",
+				server_url: ""
+			},
 			model: {
 				email: "admin@imqa.io",
 				password: "djslzja0080",
 				rememberMe: false
 			}
 		};
+	},
+	created() {
+		this.config.selectConfig().then(res => {
+			if(res === undefined) {return;}
+
+			this.config_model = {
+				directory: res.workspace,
+				server_url: res.server_url
+			};
+		});
 	},
 	methods: {
 		onSubmit() {
@@ -74,7 +91,8 @@ export default {
 					return;
 				}
 
-				selenium.setDriverConfig("server_url", "http://ote-mpm.imqa.io");
+				selenium.setDriverConfig("workspace", this.config_model.directory);
+				selenium.setDriverConfig("server_url", this.config_model.server_url);
 				selenium.setDriverConfig("cookie", arg);
 
 				this.$router.push({ path: "/workspace" });
