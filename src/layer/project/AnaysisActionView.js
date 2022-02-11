@@ -181,6 +181,8 @@ export class AnalysisActionView extends CommonActionView {
   					action: "<div class='mt-1'><button data-event='nativeLoading1' data-txId='" + txId + "' class='btn btn-primary btn-sm'>[네이티브 화면로딩 시간] 2022-01-11 00:00 ~ 2022-01-11 23:59</button></div>" +
             "<div class='mt-1'><button data-event='nativeLoading2' data-txId='" + txId + "' class='btn btn-primary btn-sm'>[네이티브 화면로딩 시간] 2022-01-12 00:00 ~ 2022-01-12 23:59</button></div>"
   				});
+
+        context.getBean(txId).nextAction(context, txId);
   		})
 
   	];
