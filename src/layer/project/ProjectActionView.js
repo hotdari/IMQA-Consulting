@@ -34,7 +34,7 @@ export class ProjectActionView extends CommonActionView {
   }
 
   nextAction(context, txId){
-    debugger
+    // debugger
     context.setBean(txId, this.nextActionObj);
     this.nextActionObj.doAction(context, txId)
   }

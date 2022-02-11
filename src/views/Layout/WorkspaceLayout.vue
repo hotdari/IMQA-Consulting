@@ -98,6 +98,7 @@ import {ProjectActionView} from "../../layer/project/ProjectActionView";
 import {ActionViewContext} from "@/layer/common/ActionViewContext";
 import {ActionViewUtil} from "@/layer/common/ActionViewUtil";
 import {AnalysisActionView} from "@/layer/project/AnaysisActionView";
+import {ReportActionView} from "@/layer/project/ReportActionView";
 
 export default {
 	components: {
@@ -199,6 +200,8 @@ export default {
       context.setBean(myTxId, projectActionView);
       let analysisActionView = AnalysisActionView.newInstance().analysisPreview();
       projectActionView.setNextAction(analysisActionView);
+      let reportActionView = ReportActionView.newInstance().makeReport();
+      projectActionView.setNextAction(reportActionView);
 
 
       projectActionView.doAction(context, myTxId);

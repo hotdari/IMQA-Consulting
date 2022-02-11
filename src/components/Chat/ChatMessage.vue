@@ -10,7 +10,7 @@
       </div>
       <div v-html="body" class="message_txt">
       </div>
-      <div v-html="action" class="action_info" ref="action" @click="test()">
+      <div v-html="action" class="action_info" ref="action">
       </div>
     </div>
   </div>
@@ -19,7 +19,6 @@
 <script>
 import selenium from "../../../model/Selenium";
 import {ActionViewContext} from "@/layer/common/ActionViewContext";
-
 
 export default {
 	props: {
@@ -30,9 +29,10 @@ export default {
 	},
 	mounted() {
 		this.$refs.action.addEventListener("click", async function (event) {
-
-		  if(event.target.dataset.event === 'startConsulting') {
+		  if(event.target.dataset.event === 'downloadReport') {
 		    //powerpoint download
+        let context = ActionViewContext.getInstance();
+        context.getBean(event.target.dataset.txid)._myActionView.savePpt()
       } else {
         console.log("clicked: ", event.target.dataset);
         let context = ActionViewContext.getInstance();
