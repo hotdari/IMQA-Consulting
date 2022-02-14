@@ -8,8 +8,9 @@ import { configure } from 'vee-validate';
 import GlobalComponents from './globalComponents';
 // A plugin file where you could register global directives
 import GlobalDirectives from './globalDirectives';
-// Sidebar on the right. Used as a local plugin in DashboardLayout.vue
+// Sidebar on the right. Used as a local plugin in WorkspaceLayout.vue
 import SideBar from '@/components/SidebarPlugin';
+import VueQuillEditor from 'vue-quill-editor'
 
 // element ui language configuration
 import lang from 'element-ui/lib/locale/lang/en';
@@ -40,6 +41,7 @@ export default {
     Vue.use(Notifications);
     Vue.use(BootstrapVue);
     Vue.use(IconsPlugin);
+    Vue.use(VueQuillEditor);
     configure({
       classes: {
         valid: 'is-valid',
